@@ -13,7 +13,7 @@ import fnmatch
 import signal
 from traceback import format_exception
 from multiprocessing import active_children
-import readline # to make sure input() works properly
+import pyreadline3 # to make sure input() works properly
 from dacite import from_dict
 
 from .low_level_actions import LOW_LEVEL_ACTIONS
@@ -250,8 +250,8 @@ class Environment:
         # set time out
         def signal_handler(signum, frame):
             raise TimeoutException("Timed out!")
-        signal.signal(signal.SIGALRM, signal_handler)
-        signal.alarm(self.args.max_time)
+        # signal.signal(signal.SIGALRM, signal_handler)
+        # signal.alarm(self.args.max_time)
         return self
     
     def __exit__(self, exc_type, exc_value, traceback):  

@@ -174,6 +174,7 @@ def complete_text_geminipro(prompt, stop_sequences=["Observation:"], model="gemi
                 stop_sequences=stop_sequences,
                 max_output_tokens=max_tokens_to_sample,
                 temperature=temperature))
+            completion = completion.text
             break
         except:
             print("Gemini PRO API Call error. Retrying...")

@@ -87,7 +87,7 @@ def run_eval(log_folder, benchmark_folder_name, eval_intermediate=False):
     summarized_log = ''
     for subdir, dirs, files in os.walk(log_folder):
         for file in files:
-
+            print(os.path.join(subdir, file))
             if file == 'trace.json':
                 result = EvaluationResult(
                     path=os.path.join(subdir, file),

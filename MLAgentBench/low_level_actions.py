@@ -11,7 +11,7 @@ from functools import wraps
 import time
 from io import StringIO
 from .schema import Step, ActionInfo, Action, EnvException
-import readline # This is needed to make sure that the input() function works properly
+import pyreadline3 # This is needed to make sure that the input() function works properly
 
 
 def normalize_args_kwargs(f, *args, **kwargs):
