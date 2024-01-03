@@ -11,7 +11,8 @@ from autogpt.llm.providers.openai import OPEN_AI_MODELS
 from autogpt.logs import logger
 from autogpt.singleton import Singleton
 import datetime
-from MLAgentBench.LLM import complete_text_claude, complete_text_crfm
+# from MLAgentBench.LLM import complete_text_claude, complete_text_crfm
+from MLAgentBench.LLM import complete_text_geminipro
 import os
 import anthropic
 import time
@@ -114,7 +115,7 @@ class ApiManager(metaclass=Singleton):
                 else:
                     prompt += anthropic.AI_PROMPT + m["content"] + "\n"
 
-            completion = complete_text_claude(prompt=prompt,
+            completion = complete_text_geminipro(prompt=prompt,
                                             model=model,
                                             temperature=temperature,
                                             max_tokens_to_sample=max_tokens,

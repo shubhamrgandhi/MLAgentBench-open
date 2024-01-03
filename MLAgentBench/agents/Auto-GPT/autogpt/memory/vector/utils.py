@@ -6,8 +6,8 @@ import openai
 from autogpt.config import Config
 from autogpt.llm.utils import metered, retry_openai_api
 from autogpt.logs import logger
-from MLAgentBench.LLM import get_embedding_crfm
-
+# from MLAgentBench.LLM import get_embedding_crfm
+from MLAgentBench.LLM import get_embedding_geminipro
 
 Embedding = list[np.float32] | np.ndarray[Any, np.dtype[np.float32]]
 """Embedding vector"""
@@ -65,10 +65,12 @@ def get_embedding(
     #     **kwargs,
     # ).data
     if not type(input) == list:
-        embedding = get_embedding_crfm(input, model="openai/" + model)
+        # embedding = get_embedding_crfm(input, model="openai/" + model)
+        embedding = get_embedding_geminipro(input, model=model)
         return embedding
     else:
-        return [get_embedding_crfm(inp, model="openai/" + model) for inp in input]
+        # return [get_embedding_crfm(inp, model="openai/" + model) for inp in input]
+        return [get_embedding_geminipro(inp, model=model) for inp in input]
 
     # if not multiple:
     #     return embeddings[0]["embedding"]

@@ -7,7 +7,7 @@ import re
 import glob
 import copy
 from argparse import Namespace
-import anthropic
+# import anthropic
 import MLAgentBench.high_level_actions as high_level_actions
 from MLAgentBench.schema import Action, EnhancedJSONEncoder
 from MLAgentBench.LLM import complete_text
@@ -250,7 +250,8 @@ class SimpleActionAgent(Agent):
 
             for idx in range(max(0, curr_step - last_steps), curr_step):
                 action_string = self.print_action(self.history_steps[idx]["action"], self.valid_format_entires)
-                prompt += anthropic.AI_PROMPT + "\n"+ action_string + "\nObservation:"
+                # prompt += anthropic.AI_PROMPT + "\n"+ action_string + "\nObservation:"
+                prompt += action_string + "\nObservation:"
                 prompt += "\n```\n" + self.history_steps[idx]["observation"] + "\n```\n\n"
 
             ###############################################
@@ -269,7 +270,8 @@ class SimpleActionAgent(Agent):
                     valid_response = True
                 except:
                     print("Step", curr_step, file=sys.stderr)
-                    print(anthropic.AI_PROMPT + "\n" + completion + "\nObservation:\n", file=sys.stderr)
+                    # print(anthropic.AI_PROMPT + "\n" + completion + "\nObservation:\n", file=sys.stderr)
+                    print(completion + "\nObservation:\n", file=sys.stderr)
                     print("Response is invalid and discarded", file=sys.stderr)
                 else:
                     break
@@ -295,7 +297,8 @@ class SimpleActionAgent(Agent):
 
             with open(os.path.join(self.log_dir , "main_log"), "a", 1) as f:
                 f.write("Step " + str(curr_step) + ":\n")
-                f.write(anthropic.AI_PROMPT + "\n" + self.print_action(entries, self.valid_format_entires) + "\nObservation:\n")
+                # f.write(anthropic.AI_PROMPT + "\n" + self.print_action(entries, self.valid_format_entires) + "\nObservation:\n")
+                f.write(self.print_action(entries, self.valid_format_entires) + "\nObservation:\n")
 
 
             ########################################
