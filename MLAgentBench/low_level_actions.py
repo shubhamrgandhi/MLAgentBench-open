@@ -168,59 +168,100 @@ def undo_edit_script( script_name, work_dir = ".", **kwargs):
         )
 
 
+# @check_file_in_work_dir(["script_name"])
+# @record_low_level_step
+# def execute_script(script_name, work_dir = ".", **kwargs):
+#     if not os.path.exists(os.path.join(work_dir,script_name)):
+#         raise EnvException(f"The file {script_name} does not exist.")
+#     try:
+#         script_path = script_name
+#         device = kwargs["device"]
+#         python = kwargs["python"]
+#         cmd = f"{python} -u {script_path}"
+#         print("Done 1")
+#         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True, cwd=work_dir)
+#         print("Done 2")
+
+#         stdout_lines = []
+#         stderr_lines = []
+
+#         selector = selectors.DefaultSelector()
+#         selector.register(process.stdout, selectors.EVENT_READ)
+#         selector.register(process.stderr, selectors.EVENT_READ)
+#         print("Done 3")
+
+#         while process.poll() is None and selector.get_map():
+#             events = selector.select(timeout=1)
+
+#             for key, _ in events:
+#                 line = key.fileobj.readline()
+#                 if key.fileobj == process.stdout:
+#                     print("STDOUT:", line, end =" ")
+#                     stdout_lines.append(line)
+#                 else:
+#                     print("STDERR:", line, end =" ")
+#                     stderr_lines.append(line)
+#         print("Done 4")
+
+#         for line in process.stdout:
+#             line = line
+#             print("STDOUT:", line, end =" ")
+#             stdout_lines.append(line)
+#         print("Done 5")
+#         for line in process.stderr:
+#             line = line
+#             print("STDERR:", line, end =" ")
+#             stderr_lines.append(line)
+#         print("Done 6")
+
+#         return_code = process.returncode
+
+#         if return_code != 0:
+#             observation = "".join(stderr_lines)
+#         else:
+#             observation = "".join(stdout_lines)
+#         if observation == "" and return_code == 0:
+#             # printed to stderr only
+#             observation = "".join(stderr_lines)
+#         print("Done 8")
+#         return "The script has been executed. Here is the output:\n" + observation
+#     except Exception as e:
+#         raise EnvException(f"Something went wrong in executing {script_name}: {e}. Please check if it is ready to be executed.")
+
+
 @check_file_in_work_dir(["script_name"])
 @record_low_level_step
-def execute_script(script_name, work_dir = ".", **kwargs):
+def execute_script(script_name, work_dir = "../workspace/cifar10", **kwargs):
     if not os.path.exists(os.path.join(work_dir,script_name)):
         raise EnvException(f"The file {script_name} does not exist.")
     try:
         script_path = script_name
-        device = kwargs["device"]
-        python = kwargs["python"]
-        cmd = f"CUDA_VISIBLE_DEVICES={device} {python} -u {script_path}"
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True, cwd=work_dir)
+        # device = kwargs["device"]
+        # python = kwargs["python"]
+        cmd = f"python -u {script_path}"
+        print("Executing script now...")
+        process = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1, universal_newlines=True, cwd=work_dir
+        )
 
-        stdout_lines = []
-        stderr_lines = []
+        # Read the output from the subprocess as it becomes available
+        while True:
+            output_line = process.stdout.readline()
+            if output_line == "" and process.poll() is not None:
+                break
+            print(output_line.strip())  # You can replace print with whatever you want to do with the output
+            # Do something with the output_line, for example, save it or send it to a web interface
 
-        selector = selectors.DefaultSelector()
-        selector.register(process.stdout, selectors.EVENT_READ)
-        selector.register(process.stderr, selectors.EVENT_READ)
+        process.wait()
+        process.terminate()
 
-        while process.poll() is None and selector.get_map():
-            events = selector.select(timeout=1)
+        stdout_lines, stderr_lines = process.communicate()
+        observation = stderr_lines if stderr_lines else stdout_lines
 
-            for key, _ in events:
-                line = key.fileobj.readline()
-                if key.fileobj == process.stdout:
-                    print("STDOUT:", line, end =" ")
-                    stdout_lines.append(line)
-                else:
-                    print("STDERR:", line, end =" ")
-                    stderr_lines.append(line)
-
-        for line in process.stdout:
-            line = line
-            print("STDOUT:", line, end =" ")
-            stdout_lines.append(line)
-        for line in process.stderr:
-            line = line
-            print("STDERR:", line, end =" ")
-            stderr_lines.append(line)
-
-        return_code = process.returncode
-
-        if return_code != 0:
-            observation = "".join(stderr_lines)
-        else:
-            observation = "".join(stdout_lines)
-        if observation == "" and return_code == 0:
-            # printed to stderr only
-            observation = "".join(stderr_lines)
         return "The script has been executed. Here is the output:\n" + observation
+
     except Exception as e:
         raise EnvException(f"Something went wrong in executing {script_name}: {e}. Please check if it is ready to be executed.")
-
 
 @record_low_level_step
 def python_repl(command, work_dir = ".", **kwargs):
