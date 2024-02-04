@@ -18,8 +18,8 @@ log_dir='single_exp_logs'
 model='gemini-pro'
 # task='ogbn-arxiv'
 # task='imdb'
-# for task in ['CLRS']:
-for task in ['house-price', 'spaceship-titanic', 'feedback']:
+# for task in ['ogbn-arxiv']:
+for task in ['ogbn-arxiv', 'spaceship-titanic', 'feedback']:
     folder = f'{log_dir}/{model}/{task}'
     pklname = f'{log_dir}-{model}-{task}-done_count.pkl'
 
