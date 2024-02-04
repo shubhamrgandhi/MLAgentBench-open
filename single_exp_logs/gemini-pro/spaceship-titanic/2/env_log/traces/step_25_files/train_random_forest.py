@@ -1,0 +1,79 @@
+import seaborn as sb
+import pandas as pd
+import os
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+
+def create_new_df(data, column_names):
+    new_data = {}
+
+    for column in column_names:
+        if column in data.columns:
+            new_data[column] = data[column]
+        else:
+            new_data[column] = pd.Series(0, index=data.index)
+
+    new_df = pd.DataFrame(new_data)
+    return new_df
+
+# Loading the data to train a classifier downstream
+df = pd.read_csv("train.csv")
+num_examples = df.shape[0]
+df = df.sample(frac = 1, random_state=1)
+train_data = df[0:int(0.8*num_examples)]
+val_data = df[int(0.8*num_examples)+1:]
+
+train_data[["Deck", "Cabins_num", "Side"]]= train_data["Cabins"].str.split("/", expand=True)
+train_data = train_data.drop('Cabins', axis=1)
+
+val_data[["Deck", "Cabins_num", "Side"]]= val_data["Cabins"].str.split("/", expand=True)
+val_data = val_data.drop('Cabins', axis=1)
+
+TargetY = train_data["Transported"]
+TargetY_test = val_data["Transported"]
+
+# Creating dummy variables for the features
+select_features = ["HomePort", "Origin", "Destination", "VIP", "Deck", "Side"]
+ResourceX = pd.get_dummies(train_data[select_features])
+ResourceX_test = pd.get_dummies(val_data[select_features])
+
+# ***********************************************
+# In this part of the code, write and train the model on the above data to perform the task.
+# Note that the output accuracy should be stored in train_accuracy and val_accuracy variables
+# ***********************************************
+
+# Creating the Random Forest Classifier
+rf = RandomForestClassifier(n_jobs=-1, random_state=1)
+rf.fit(ResourceX, TargetY)
+
+# Predicting the labels for the validation data
+rf_val_pred = rf.predict(ResourceX_test)
+rf_train_pred = rf.predict(ResourceX)
+
+# Calculating the accuracy
+train_accuracy = accuracy_score(TargetY, rf_train_pred)
+val_accuracy = accuracy_score(TargetY_test, rf_val_pred)
+
+# ***********************************************
+# End of the main training module
+# ***********************************************
+
+print(f"Train Accuracy: {train_accuracy}")
+print(f"Val Accuracy: {val_accuracy}")
+
+test_data = pd.read_csv('test.csv')
+test_data[["Deck", "Cabins_num", "Side"]]= test_data["Cabins"].str.split("/", expand=True)
+test_data = test_data.drop('Cabins', axis=1)
+
+test_X = pd.get_dummies(test_data[select_features])
+test_X.insert(loc = 17,
+              column = 'Deck_T',
+              value = 0)
+
+test_preds = rf.predict(test_X)
+
+
+output = pd.DataFrame({
+                       'PassengerId': test_data.PassengerId,
+                       'Transported': test_preds})
+output.to_csv('submission.csv', index=False)
