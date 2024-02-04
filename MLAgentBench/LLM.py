@@ -172,7 +172,7 @@ def complete_text_geminipro(prompt, stop_sequences=["Observation:"], model="gemi
                 # Only one candidate for now.
                 candidate_count=1,
                 stop_sequences=stop_sequences,
-                max_output_tokens=max_tokens_to_sample,
+                # max_output_tokens=max_tokens_to_sample,
                 temperature=temperature))
             completion = completion.text
             break
