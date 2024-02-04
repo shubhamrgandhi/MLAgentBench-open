@@ -15,11 +15,11 @@ def read_from_pickle_file(filename):
 
 
 log_dir='single_exp_logs'
-model='gemini-pro'
-# task='ogbn-arxiv'
-# task='imdb'
-# for task in ['ogbn-arxiv']:
-for task in ['ogbn-arxiv', 'spaceship-titanic', 'feedback']:
+model='codellama'
+# for task in ['cifar10', 'imdb', 'CLRS']:
+# for task in ['imdb', 'CLRS', 'house-price', 'spaceship-titanic', 'feedback']:
+# for task in ['amp-parkinsons-disease-progression-prediction']:
+for task in ['llama-inference', 'vectorization', 'babylm']:
     folder = f'{log_dir}/{model}/{task}'
     pklname = f'{log_dir}-{model}-{task}-done_count.pkl'
 
