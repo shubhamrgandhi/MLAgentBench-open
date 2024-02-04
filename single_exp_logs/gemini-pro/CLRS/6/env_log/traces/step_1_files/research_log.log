@@ -1,0 +1,15 @@
+
+
+Step 0:
+[Reasoning]: The agent needs to understand the problem and the baseline model before it can start working on it. The agent can find this information in the data description file.
+[Action]: Read the data description file to understand the task, input format, and output format.
+[Objective]: The task is to evaluate algorithmic reasoning by providing a suite of implementations of classical algorithms. The input format is a graph representation of the algorithm. The output format is a namedtuple with the following structure:
+
+```
+Feedback = collections.namedtuple('Feedback', ['features', 'outputs'])
+Features = collections.namedtuple('Features', ['inputs', 'hints', 'lengths'])
+```
+
+- `Features` contains the input data, hints, and lengths of the algorithm trajectory.
+- `Output` is reserved for evaluation.
+

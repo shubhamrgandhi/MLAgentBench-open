@@ -1,0 +1,289 @@
+
+===================prompt=====================
+Given the relevant observations for each segments of a file, summarize to get a cohesive description of the entire file on what to look for and what should returned: Information about the data and all the features.
+    Segment {idx}: 
+
+**MSSubClass:**
+- Identifies the type of dwelling involved in the sale. (Line 1)
+- Values range from 20 to 190. (Lines 21-190)
+
+**MSZoning:**
+- Identifies the general zoning classification of the sale. (Line 192)
+- Values include: A, C, FV, I, RH, RL, RP, and RM. (Lines 194-201)
+
+**LotFrontage:**
+- Linear feet of street connected to property. (Line 203)
+- Values are in feet.
+
+**LotArea:**
+- Lot size in square feet. (Line 205)
+- Values are in square feet.
+
+**Street:**
+- Type of road access to property. (Line 207)
+- Values include: Grvl (Gravel) and Pave (Paved).
+
+**Alley:**
+- Type of alley access to property. (Line 209)
+- Values include: Grvl (Gravel), Pave (Paved), and NA (No alley access).
+
+**LotShape:**
+- General shape of property. (Line 211)
+- Values include: Reg (Regular), IR1 (Slightly irregular), IR2 (Moderately Irregular), and IR3 (Irregular).
+
+**LandContour:**
+- Flatness of the property. (Line 213)
+- Values include: Lvl (Near Flat/Level), Bnk (Banked - Quick and significant rise from street grade to building), HLS (Hillside - Significant slope from side to side), and Low (Depression).
+
+**Utilities:**
+- Type of utilities available. (Line 215)
+- Values include: AllPub (All public Utilities (E,G,W,& S)), NoSeWa (Electricity and Gas Only), NoSeWa (Electricity and Gas Only), and ELO (Electricity only).
+
+**LotConfig:**
+- Lot configuration. (Line 217)
+- Values include: Inside (Inside lot), Corner (Corner lot), CulDSac (Cul-de-sac), FR2 (Frontage on 2 sides of property), and FR3 (Frontage on 3 sides of property).
+
+**LandSlope:**
+- Slope of property. (Line 219)
+- Values include: Gtl (Gentle slope), Mod (Moderate Slope), and Sev (Severe Slope).
+
+**Condition1:**
+- Proximity to various conditions. (Line 221)
+- Values include: Artery (Adjacent to arterial street), Feedr (Adjacent to feeder street), Norm (Normal), RRNn (Within 200' of North-South Railroad), RRAn (Adjacent to North-South Railroad), PosN (Near positive off-site feature--park, greenbelt, etc.), PosA (Adjacent to postive off-site feature), RRNe (Within 200' of East-West Railroad), and RRAe (Adjacent to East-West Railroad).
+
+**Condition2:**
+- Proximity to various conditions (if more than one is present). (Line 223)
+- Values include: Artery (Adjacent to arterial street), Feedr (Adjacent to feeder street), Norm (Normal), RRNn (Within 200' of North-South Railroad), RRAn (Adjacent to North-South Railroad), PosN (Near positive off-site feature--park, greenbelt, etc.), PosA (Adjacent to postive off-site feature), RRNe (Within 200' of East-West Railroad), and RRAe (Adjacent to East-West Railroad).
+
+**BldgType:**
+- Type of dwelling. (Line 225)
+- Values include: 1Fam (Single-family Detached), 2FmCon (Two-family Conversion; originally built as one-family dwelling), Duplx (Duplex), TwnhsE (Townhouse End Unit), and TwnhsI (Townhouse Inside Unit).
+
+**HouseStyle:**
+- Style of dwelling. (Line 227)
+- Values include: 1Story (One story), 1.5Fin (One and one-half story: 2nd level finished), 1.5Unf (One and one-half story: 2nd level unfinished), 2Story (Two story), 2.5Fin (Two and one-half story: 2nd level finished), 2.5Unf (Two and one-half story: 2nd level unfinished), SF (Split Foyer), and SLvl (Split Level).
+
+**OverallQual:**
+- Rates the overall material and finish of the house. (Line 229)
+- Values range from 1 (Very Poor) to 10 (Very Excellent).
+
+**OverallCond:**
+- Rates the overall condition of the house. (Line 231)
+- Values range from 1 (Very Poor) to 10 (Very Excellent).
+
+**YearBuilt:**
+- Original construction date. (Line 233)
+- Values are in years.
+
+**YearRemodAdd:**
+- Remodel date (same as construction date if no remodeling or additions). (Line 235)
+- Values are in years.
+
+**RoofStyle:**
+- Type of roof. (Line 237)
+- Values include: Flat, Gable, Gambrel (Barn), Hip, Mansard, Shed, and Gable.
+
+**RoofMatl:**
+- Roof material. (Line 239)
+- Values include: ClyTile (Clay or Tile), CompShg (Standard (Composite) Shingle), Membrn (Membrane), Metal, Roll, Tar&Grv (Gravel & Tar), WdShake (Wood Shakes), and WdShngl (Wood Shingles).
+
+**Exterior1st:**
+- Exterior covering on house. (Line 241)
+- Values include: AsbShng (Asbestos Shingles), AsphShn (Asphalt Shingles), BrkComm (Brick Common), BrkFace (Brick Face), CBlock (Cinder Block), CemntBd (Cement Board), HdBoard (Hard Board), ImStucc (Imitation Stucco), MetalSd (Metal Siding), Other, Plywood, PreCast (PreCast), Stone, Stucco, VinylSd (Vinyl Siding), Wd Sdng (Wood Siding), and WdShing (Wood Shingles).
+
+**Exterior2nd:**
+- Exterior covering on house (if more than one material). (Line 243)
+- Values include: AsbShng (Asbestos Shingles), AsphShn (Asphalt Shingles), BrkComm (Brick Common), BrkFace (Brick Face), CBlock (Cinder Block), CemntBd (Cement Board), HdBoard (Hard Board), ImStucc (Imitation Stucco), MetalSd (Metal Siding), Other, Plywood, PreCast (PreCast), Stone, Stucco, VinylSd (Vinyl Siding), Wd Sdng (Wood Siding), and WdShing (Wood Shingles).
+
+**MasVnrType:**
+- Masonry veneer type. (Line 245)
+- Values include: BrkCmn (Brick Common), BrkFace (Brick Face), CBlock (Cinder Block), None, and Stone.
+
+**MasVnrArea:**
+- Masonry veneer area in square feet. (Line 247)
+- Values are in square feet.
+
+**ExterQual:**
+- Evaluates the quality of the material on the exterior. (Line 249)
+- Values include: Ex (Excellent), Gd (Good), TA (Average/Typical), Fa (Fair), and Po (Poor).
+
+**ExterCond:**
+- Evaluates the present condition of the material on the exterior. (Line 251)
+- Values include: Ex (Excellent), Gd (Good), TA (Average/Typical), Fa (Fair), and Po (Poor).
+
+**Foundation:**
+- Type of foundation. (Line 253)
+- Values include: BrkTil (Brick & Tile), CBlock (Cinder Block), PConc (Poured Contrete), Slab, Stone, and Wood.
+
+**BsmtQual:**
+- Evaluates the height of the basement. (Line 255)
+- Values include: Ex (Excellent (100+ inches)), Gd (Good (90-99 inches)), TA (Typical (80-89 inches)), Fa (Fair (70-79 inches)), Po (Poor (<70 inches), and NA (No Basement).
+
+**BsmtCond:**
+- Evaluates the general condition of the basement. (Line 257)
+- Values include: Ex (Excellent), Gd (Good), TA (Typical - slight dampness allowed), Fa (Fair - dampness or some cracking or settling), Po (Poor - Severe cracking, settling, or wetness), and NA (No Basement).
+
+**BsmtExposure:**
+- Refers to walkout or garden level walls. (Line 259)
+- Values include: Gd (Good Exposure), Av (Average Exposure (split levels or foyers typically score average or above)), Mn (Minimum Exposure), No (No Exposure), and NA (No Basement).
+
+**BsmtFinType1:**
+- Rating of basement finished area. (Line 261)
+- Values include: GLQ (Good Living Quarters), ALQ (Average Living Quarters
+
+Segment {idx}: 
+
+- **TotRmsAbvGrd:** Total number of rooms above ground, excluding bathrooms. (Line 389)
+
+
+- **Functional:** Home functionality, with typical functionality and various levels of deductions. (Line 393)
+
+
+- **Fireplaces:** Number of fireplaces in the home. (Line 401)
+
+
+- **FireplaceQu:** Quality of the fireplace, ranging from excellent to poor. (Line 405)
+
+
+- **GarageType:** Location of the garage, including attached, detached, built-in, carport, and no garage. (Line 413)
+
+
+- **GarageYrBlt:** Year the garage was built. (Line 421)
+
+
+- **GarageFinish:** Interior finish of the garage, including finished, rough finished, unfinished, and no garage. (Line 425)
+
+
+- **GarageCars:** Size of the garage in car capacity. (Line 433)
+
+
+- **GarageArea:** Size of the garage in square feet. (Line 437)
+
+
+- **GarageQual:** Quality of the garage, ranging from excellent to poor. (Line 441)
+
+
+- **GarageCond:** Condition of the garage, ranging from excellent to poor. (Line 445)
+
+
+- **PavedDrive:** Whether the driveway is paved, partially paved, or dirt/gravel. (Line 453)
+
+
+- **WoodDeckSF:** Area of the wood deck in square feet. (Line 457)
+
+
+- **OpenPorchSF:** Area of the open porch in square feet. (Line 461)
+
+
+- **EnclosedPorch:** Area of the enclosed porch in square feet. (Line 465)
+
+
+- **3SsnPorch:** Area of the three-season porch in square feet. (Line 469)
+
+
+- **ScreenPorch:** Area of the screen porch in square feet. (Line 473)
+
+
+- **PoolArea:** Area of the pool in square feet. (Line 477)
+
+
+- **PoolQC:** Quality of the pool, ranging from excellent to poor. (Line 481)
+
+
+- **Fence:** Quality of the fence, including good privacy, minimum privacy, good wood, minimum wood/wire, and no fence. (Line 489)
+
+
+- **MiscFeature:** Miscellaneous feature not covered in other categories, such as elevator, second garage, shed, tennis court, or none. (Line 497)
+
+
+- **MiscVal:** Value of the miscellaneous feature in dollars. (Line 501)
+
+
+- **MoSold:** Month the property was sold, in MM format. (Line 509)
+
+
+- **YrSold:** Year the property was sold, in YYYY format. (Line 513)
+
+
+- **SaleType:** Type of sale, including warranty deed, court officer deed, contract, and other. (Line 517)
+
+
+- **SaleCondition:** Condition of the sale, including normal sale, abnormal sale, adjoining land purchase, allocation, sale between family members, and partial home completion. (Line 521)
+    
+===================gemini-pro response (500)=====================
+**Sale Price:**
+- The amount of money that the house sold for. (Line 1)
+- May be represented as a dollar amount or as a percentage of a benchmark.
+
+**Overall Quality:**
+- Overall quality of the house on a scale of 1 to 10, with 10 being the highest quality. (Line 3)
+- May be represented as a numeric value or as a descriptive term (e.g., "Average" or "High").
+
+**Living Area:**
+- The area of the house in square feet. (Line 5)
+- May be represented as a numeric value or as a range of values.
+
+**Number of Bedrooms:**
+- The number of bedrooms in the house. (Line 7)
+- May be represented as a numeric value or as a range of values.
+
+**Number of Bathrooms:**
+- The number of bathrooms in the house. (Line 9)
+- May be represented as a numeric value or as a range of values.
+
+**Number of Stories:**
+- The number of stories in the house. (Line 11)
+- May be represented as a numeric value or as a range of values.
+
+**Garage:**
+- Whether the house has a garage or not. (Line 13)
+- May be represented as a binary value (Yes/No) or as a description of the garage (e.g., "Attached" or "Detached").
+
+**Year Built:**
+- The year the house was built. (Line 15)
+- May be represented as a numeric value or as a range of values.
+
+**Exterior:**
+- The type of exterior the house has. (Line 17)
+- May be represented as a description of the exterior (e.g., "Brick" or "Vinyl") or as a code (e.g., "1" or "2").
+
+**Roof:**
+- The type of roof the house has. (Line 19)
+- May be represented as a description of the roof (e.g., "Gable" or "Hip") or as a code (e.g., "1" or "2").
+
+**Foundation:**
+- The type of foundation the house has. (Line 21)
+- May be represented as a description of the foundation (e.g., "Concrete" or "Slab") or as a code (e.g., "1" or "2").
+
+**Heating:**
+- The type of heating the house has. (Line 23)
+- May be represented as a description of the heating (e.g., "Gas" or "Electric") or as a code (e.g., "1" or "2").
+
+**Central Air:**
+- Whether the house has central air or not. (Line 25)
+- May be represented as a binary value (Yes/No) or as a description of the central air (e.g., "Yes" or "No").
+
+**Utilities:**
+- The type of utilities the house has. (Line 27)
+- May be represented as a description of the utilities (e.g., "Public" or "Septic") or as a code (e.g., "1" or "2").
+
+**Taxes:**
+- The amount of taxes the house pays annually. (Line 29)
+- May be represented as a numeric value or as a range of values.
+
+**Date Sold:**
+- The date the house was sold. (Line 31)
+- May be represented as a date or as a range of dates.
+
+**Condition:**
+- The condition of the house. (Line 33)
+- May be represented as a description of the condition (e.g., "Good" or "Needs Work") or as a code (e.g., "1" or "2").
+
+**Remarks:**
+- Any additional information about the house. (Line 35)
+- May be represented as a text string or as a list of values.
+===================tokens=====================
+Number of prompt tokens: 2780
+Number of sampled tokens: 858
+
+

@@ -1,0 +1,574 @@
+
+===================prompt=====================
+Given the relevant observations for each segments of a file, summarize to get a cohesive description of the entire file on what to look for and what should returned: description of the data and all the features
+    Segment {idx}: 
+
+**MSSubClass:** Identifies the type of dwelling involved in the sale. (Line 1)
+
+**Values:**
+
+* 20: 1-STORY 1946 & NEWER ALL STYLES
+* 30: 1-STORY 1945 & OLDER
+* 40: 1-STORY W/FINISHED ATTIC ALL AGES
+* 45: 1-1/2 STORY - UNFINISHED ALL AGES
+* 50: 1-1/2 STORY FINISHED ALL AGES
+* 60: 2-STORY 1946 & NEWER
+* 70: 2-STORY 1945 & OLDER
+* 75: 2-1/2 STORY ALL AGES
+* 80: SPLIT OR MULTI-LEVEL
+* 85: SPLIT FOYER
+* 90: DUPLEX - ALL STYLES AND AGES
+* 120: 1-STORY PUD (Planned Unit Development) - 1946 & NEWER
+* 150: 1-1/2 STORY PUD - ALL AGES
+* 160: 2-STORY PUD - 1946 & NEWER
+* 180: PUD - MULTILEVEL - INCL SPLIT LEV/FOYER
+* 190: 2 FAMILY CONVERSION - ALL STYLES AND AGES
+
+**MSZoning:** Identifies the general zoning classification of the sale. (Line 11)
+
+**Values:**
+
+* A: Agriculture
+* C: Commercial
+* FV: Floating Village Residential
+* I: Industrial
+* RH: Residential High Density
+* RL: Residential Low Density
+* RP: Residential Low Density Park
+* RM: Residential Medium Density
+
+**LotFrontage:** Linear feet of street connected to property (Line 17)
+
+**LotArea:** Lot size in square feet (Line 18)
+
+**Street:** Type of road access to property (Line 19)
+
+**Values:**
+
+* Grvl: Gravel
+* Pave: Paved
+
+**Alley:** Type of alley access to property (Line 21)
+
+**Values:**
+
+* Grvl: Gravel
+* Pave: Paved
+* NA: No alley access
+
+**LotShape:** General shape of property (Line 23)
+
+**Values:**
+
+* Reg: Regular
+* IR1: Slightly irregular
+* IR2: Moderately Irregular
+* IR3: Irregular
+
+**LandContour:** Flatness of the property (Line 25)
+
+**Values:**
+
+* Lvl: Near Flat/Level
+* Bnk: Banked - Quick and significant rise from street grade to building
+* HLS: Hillside - Significant slope from side to side
+* Low: Depression
+
+**Utilities:** Type of utilities available (Line 27)
+
+**Values:**
+
+* AllPub: All public Utilities (E,G,W,& S)
+* NoSewr: Electricity, Gas, and Water (Septic Tank)
+* NoSeWa: Electricity and Gas Only
+* ELO: Electricity only
+
+**LotConfig:** Lot configuration (Line 29)
+
+**Values:**
+
+* Inside: Inside lot
+* Corner: Corner lot
+* CulDSac: Cul-de-sac
+* FR2: Frontage on 2 sides of property
+* FR3: Frontage on 3 sides of property
+
+**LandSlope:** Slope of property (Line 31)
+
+**Values:**
+
+* Gtl: Gentle slope
+* Mod: Moderate Slope
+* Sev: Severe Slope
+
+**Neighborhood:** Physical locations within Ames city limits (Line 33)
+
+**Values:**
+
+* Blmngtn: Bloomington Heights
+* Blueste: Bluestem
+* BrDale: Briardale
+* BrkSide: Brookside
+* ClearCr: Clear Creek
+* CollgCr: College Creek
+* Crawfor: Crawford
+* Edwards: Edwards
+* Gilbert: Gilbert
+* IDOTRR: Iowa DOT and Rail Road
+* MeadowV: Meadow Village
+* Mitchel: Mitchell
+* Names: North Ames
+* NoRidge: Northridge
+* NPkVill: Northpark Villa
+* NridgHt: Northridge Heights
+* NWAmes: Northwest Ames
+* OldTown: Old Town
+* SWISU: South & West of Iowa State University
+* Sawyer: Sawyer
+* SawyerW: Sawyer West
+* Somerst: Somerset
+* StoneBr: Stone Brook
+* Timber: Timberland
+* Veenker: Veenker
+
+**Condition1:** Proximity to various conditions (Line 41)
+
+**Values:**
+
+* Artery: Adjacent to arterial street
+* Feedr: Adjacent to feeder street
+* Norm: Normal
+* RRNn: Within 200' of North-South Railroad
+* RRAn: Adjacent to North-South Railroad
+* PosN: Near positive off-site feature--park, greenbelt, etc.
+* PosA: Adjacent to postive off-site feature
+* RRNe: Within 200' of East-West Railroad
+* RRAe: Adjacent to East-West Railroad
+
+**Condition2:** Proximity to various conditions (if more than one is present) (Line 49)
+
+**Values:**
+
+* Artery: Adjacent to arterial street
+* Feedr: Adjacent to feeder street
+* Norm: Normal
+* RRNn: Within 200' of North-South Railroad
+* RRAn: Adjacent to North-South Railroad
+* PosN: Near positive off-site feature--park, greenbelt, etc.
+* PosA: Adjacent to postive off-site feature
+* RRNe: Within 200' of East-West Railroad
+* RRAe: Adjacent to East-West Railroad
+
+**BldgType:** Type of dwelling (Line 57)
+
+**Values:**
+
+* 1Fam: Single-family Detached
+* 2FmCon: Two-family Conversion; originally built as one-family dwelling
+* Duplx: Duplex
+* TwnhsE: Townhouse End Unit
+* TwnhsI: Townhouse Inside Unit
+
+**HouseStyle:** Style of dwelling (Line 61)
+
+**Values:**
+
+* 1Story: One story
+* 1.5Fin: One and one-half story: 2nd level finished
+* 1.5Unf: One and one-half story: 2nd level unfinished
+* 2Story: Two story
+* 2.5Fin: Two and one-half story: 2nd level finished
+* 2.5Unf: Two and one-half story: 2nd level unfinished
+* SFoyer: Split Foyer
+* SLvl: Split Level
+
+**OverallQual:** Rates the overall material and finish of the house (Line 67)
+
+**Values:**
+
+* 10: Very Excellent
+* 9: Excellent
+* 8: Very Good
+* 7: Good
+* 6: Above Average
+* 5: Average
+* 4: Below Average
+* 3: Fair
+* 2: Poor
+* 1: Very Poor
+
+**OverallCond:** Rates the overall condition of the house (Line 69)
+
+**Values:**
+
+* 10: Very Excellent
+* 9: Excellent
+* 8: Very Good
+* 7: Good
+* 6: Above Average
+* 5: Average
+* 4: Below Average
+* 3: Fair
+* 2: Poor
+* 1: Very Poor
+
+**YearBuilt:** Original construction date (Line 71)
+
+**YearRemodAdd:** Remodel date (same as construction date if no remodeling or additions) (Line 73)
+
+**RoofStyle:** Type of roof (Line 75)
+
+**Values:**
+
+* Flat: Flat
+* Gable: Gable
+* Gambrel: Gabrel (Barn)
+* Hip: Hip
+* Mansard: Mansard
+* Shed: Shed
+
+**RoofMatl:** Roof material (Line 77)
+
+**Values:**
+
+* ClyTile: Clay or Tile
+* CompShg: Standard (Composite) Shingle
+* Membran: Membrane
+* Metal: Metal
+* Roll: Roll
+* Tar&Grv: Gravel & Tar
+* WdShake: Wood Shakes
+* WdShngl: Wood Shingles
+
+**Exterior1st:** Exterior covering on house (Line 79)
+
+**Values:**
+
+* AsbShng: Asbestos Shingles
+* AsphShn: Asphalt Shingles
+* BrkComm: Brick Common
+* BrkFace: Brick Face
+* CBlock: Cinder Block
+* CemntBd: Cement Board
+* HdBoard: Hard Board
+* ImStucc: Imitation Stucco
+* MetalSd: Metal Siding
+* Other: Other
+* Plywood: Plywood
+* PreCast: PreCast
+* Stone: Stone
+* Stucco: Stucco
+* VinylSd: Vinyl Siding
+* Wd Sdng: Wood Siding
+* WdShing: Wood Shingles
+
+**Exterior2nd:** Exterior covering on house (if more than one material) (Line 81)
+
+**Values:**
+
+* AsbShng: Asbestos Shingles
+* AsphShn: Asphalt Shingles
+* BrkComm: Brick Common
+* BrkFace: Brick Face
+* CBlock: Cinder Block
+* CemntBd: Cement Board
+
+Segment {idx}: 
+
+**Description of the Data**
+
+- This is a CSV file containing home sale data.
+- Each line in the file represents a single home sale.
+- The data includes information about the home's features, as well as the sale itself.
+
+**Features**
+
+- `RmsAbvGrd`: Total rooms above grade (not include bathrooms)
+- `HomeMie`: Functionality of the home
+- `Fireplaces`: Number of fireplaces
+- `FireplaceQu`: Quality of the fireplace
+- `GarageType`: Location of the garage
+- `GarageBlt`: Year the garage was built
+- `GarageFinish`: Finish of the garage
+- `GarageCars`: Size of the garage in car capacity
+- `GarageArea`: Size of the garage in square feet
+- `GarageCond`: Quality of the garage
+- `PavedDrive`: Paved driveway
+- `DeckSF`: Wood deck area in square feet
+- `OpenPorchSF`: Open porch area in square feet
+- `EnclosedPorch`: Enclosed porch area in square feet
+- `3SsnPorch`: Three season porch area in square feet
+- `ScreenPorch`: Screen porch area in square feet
+- `PoolArea`: Pool area in square feet
+- `PoolQC`: Quality of the pool
+- `Fance`: Quality of the fence
+- `MiscFeature`: Feature not covered in other categories
+- `MiscVal`: $Value of miscellaneous feature
+- `MoSold`: Month of sale
+- `YrSold`: Year of sale
+- `SaleType`: Type of sale
+- `SaleCondition`: Condition of sale
+
+**In this segment, I cannot find:**
+
+- `YrBuilt`
+- `OverallCond`
+- `TotalBsmtSF`
+- `BsmtCond`
+- `BsmtExposure`
+- `BsmtFinSF`
+- `BsmtFinType1`
+- `BsmtFinType2`
+- `HalfBathCnt`
+- `FullBathCnt`
+- `BedroomCnt`
+- `FullBathCnt`
+- `HalfBathCnt`
+- `TotalBathCnt`
+- `LotFrontage`
+- `LotArea`
+- `OtherExp`
+- `OtherSF`
+- `TotalSF`
+- `Exterior1st`
+- `Exterior2nd`
+- `MasV`
+- `MsScrM`
+- `LiV`
+- `ExterCond`
+- `Ex`
+- `HdWood`
+- `LgKit`
+- `KitQual`
+- `FamRoom`
+- `FinCnt`
+- `Cntrkt`
+- `Wood`
+- `Compete`
+- `SubLB`
+- `YearRemod`
+- `LivArea`
+- `LotDim`
+- `Bsm`
+- `Cndtn`
+- `Quanity`
+- `Exm`
+- `LandMark`
+- `PcntSF`
+- `Street`
+- `Roadid`
+- `GrnFin`
+- `Subtyp`
+- `BldgTy`
+- `MstrVal`
+- `MSZ`
+- `Alley`
+- `RoofMatl`
+- `RoofStyle`
+- `ExtPos`
+- `SBrC`
+- `NbsPro`
+- `LotShape`
+- `Ptype`
+- `Seclusion`
+- `Nmprs`
+- `LandCont`
+- `YrChar`
+- `GrnArea`
+- `Dst`
+- `Inf`
+- `X`
+- `2ndtrr`
+- `3rec`
+- `4ttl`
+- `BsmtFull`
+- `Cvrg`
+- `Disclose`
+- `Livability`
+- `Room`
+- `Sqft`
+- `Baths`
+- `Half`
+- `Unf`
+- `Y`
+- `N`
+- `Fin`
+- `NA`
+- `Ex`
+- `TA`
+- `Fa`
+- `Po`
+- `Gd`
+- `Av`
+- `Lw`
+- `C`
+- `L`
+- `D`
+- `O`
+- `P`
+- `S`
+- `A`
+- `I`
+- `U`
+- `1`
+- `2`
+- `3`
+- `4`
+- `5`
+- `6`
+- `7`
+- `8`
+- `9`
+- `0`
+    
+===================gemini-pro response (500)=====================
+**Description of the Data**
+
+- This is a CSV file containing home sale data.
+- Each line in the file represents a single home sale.
+- The data includes information about the home's features, as well as the sale itself.
+
+**Features**
+
+- `RmsAbvGrd`: Total rooms above grade (not include bathrooms)
+- `HomeMie`: Functionality of the home
+- `Fireplaces`: Number of fireplaces
+- `FireplaceQu`: Quality of the fireplace
+- `GarageType`: Location of the garage
+- `GarageBlt`: Year the garage was built
+- `GarageFinish`: Finish of the garage
+- `GarageCars`: Size of the garage in car capacity
+- `GarageArea`: Size of the garage in square feet
+- `GarageCond`: Quality of the garage
+- `PavedDrive`: Paved driveway
+- `DeckSF`: Wood deck area in square feet
+- `OpenPorchSF`: Open porch area in square feet
+- `EnclosedPorch`: Enclosed porch area in square feet
+- `3SsnPorch`: Three season porch area in square feet
+- `ScreenPorch`: Screen porch area in square feet
+- `PoolArea`: Pool area in square feet
+- `PoolQC`: Quality of the pool
+- `Fance`: Quality of the fence
+- `MiscFeature`: Feature not covered in other categories
+- `MiscVal`: $Value of miscellaneous feature
+- `MoSold`: Month of sale
+- `YrSold`: Year of sale
+- `SaleType`: Type of sale
+- `SaleCondition`: Condition of sale
+
+**Missing Features**
+
+- `YrBuilt`
+- `OverallCond`
+- `TotalBsmtSF`
+- `BsmtCond`
+- `BsmtExposure`
+- `BsmtFinSF`
+- `BsmtFinType1`
+- `BsmtFinType2`
+- `HalfBathCnt`
+- `FullBathCnt`
+- `BedroomCnt`
+- `FullBathCnt`
+- `HalfBathCnt`
+- `TotalBathCnt`
+- `LotFrontage`
+- `LotArea`
+- `OtherExp`
+- `OtherSF`
+- `TotalSF`
+- `Exterior1st`
+- `Exterior2nd`
+- `MasV`
+- `MsScrM`
+- `LiV`
+- `ExterCond`
+- `Ex`
+- `HdWood`
+- `LgKit`
+- `KitQual`
+- `FamRoom`
+- `FinCnt`
+- `Cntrkt`
+- `Wood`
+- `Compete`
+- `SubLB`
+- `YearRemod`
+- `LivArea`
+- `LotDim`
+- `Bsm`
+- `Cndtn`
+- `Quanity`
+- `Exm`
+- `LandMark`
+- `PcntSF`
+- `Street`
+- `Roadid`
+- `GrnFin`
+- `Subtyp`
+- `BldgTy`
+- `MstrVal`
+- `MSZ`
+- `Alley`
+- `RoofMatl`
+- `RoofStyle`
+- `ExtPos`
+- `SBrC`
+- `NbsPro`
+- `LotShape`
+- `Ptype`
+- `Seclusion`
+- `Nmprs`
+- `LandCont`
+- `YrChar`
+- `GrnArea`
+- `Dst`
+- `Inf`
+- `X`
+- `2ndtrr`
+- `3rec`
+- `4ttl`
+- `BsmtFull`
+- `Cvrg`
+- `Disclose`
+- `Livability`
+- `Room`
+- `Sqft`
+- `Baths`
+- `Half`
+- `Unf`
+- `Y`
+- `N`
+- `Fin`
+- `NA`
+- `Ex`
+- `TA`
+- `Fa`
+- `Po`
+- `Gd`
+- `Av`
+- `Lw`
+- `C`
+- `L`
+- `D`
+- `O`
+- `P`
+- `S`
+- `A`
+- `I`
+- `U`
+- `1`
+- `2`
+- `3`
+- `4`
+- `5`
+- `6`
+- `7`
+- `8`
+- `9`
+- `0`
+===================tokens=====================
+Number of prompt tokens: 3109
+Number of sampled tokens: 1000
+
+
