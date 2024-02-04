@@ -48,7 +48,7 @@ def prepare_task(benchmark_dir, python="python"):
                 f.write("success")
         print("prepare.py finished")
     else:
-        print("prepare.py not found or already prepared")
+        print(f"{os.path.join(benchmark_dir, 'scripts', 'prepare.py')} not found or already prepared")
 
 if __name__ == "__main__":
 
@@ -59,4 +59,5 @@ if __name__ == "__main__":
         python = "python"
     benchmark_name, _ = get_task_info(task)
     benchmark_dir = os.path.join(benchmarks_dir, benchmark_name)
-    prepare_task(task, python=python)
+    # print(benchmark_dir)
+    prepare_task(benchmark_dir, python=python)

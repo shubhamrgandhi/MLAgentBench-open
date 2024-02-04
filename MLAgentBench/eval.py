@@ -174,7 +174,7 @@ def run_eval(log_folder, benchmark_folder_name, eval_intermediate=False):
                         eval_final_score = module.get_score(folder_path)
                         result.score.append(eval_final_score)
                         result.final_score = eval_final_score
-                        print(eval_final_score)
+                        print("Eval final score - ", eval_final_score)
                 except Exception as e:
                     print(e)
                     pass

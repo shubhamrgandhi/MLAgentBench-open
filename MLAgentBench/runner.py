@@ -55,7 +55,7 @@ if __name__ == "__main__":
     parser.add_argument("--fast-llm-name", type=str, default="gemini-pro", help="llm name")
     parser.add_argument("--edit-script-llm-name", type=str, default="gemini-pro", help="llm name")
     parser.add_argument("--edit-script-llm-max-tokens", type=int, default=4000, help="llm max tokens")
-    parser.add_argument("--agent-max-steps", type=int, default=50, help="max iterations for agent")
+    parser.add_argument("--agent-max-steps", type=int, default=30, help="max iterations for agent")
 
     # research agent configs
     parser.add_argument("--actions-remove-from-prompt", type=str, nargs='+', default=[], help="actions to remove in addition to the default ones: Read File, Write File, Append File, Retrieval from Research Log, Append Summary to Research Log, Python REPL, Edit Script Segment (AI)")

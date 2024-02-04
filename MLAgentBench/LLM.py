@@ -164,8 +164,8 @@ def get_embedding_geminipro(text, model="gemini-pro"):
 #     return completion
 
 def complete_text_geminipro(prompt, stop_sequences=["Observation:"], model="gemini-pro", max_tokens_to_sample=500, temperature=0.2, log_file=None, **kwargs):
-    
-    while True:
+    i = 0
+    while i < 5:
         try:
             completion = model_gemini.generate_content(prompt, 
                 generation_config=genai.types.GenerationConfig(
@@ -177,8 +177,19 @@ def complete_text_geminipro(prompt, stop_sequences=["Observation:"], model="gemi
             completion = completion.text
             break
         except:
-            print("Gemini PRO API Call error. Retrying...")
+            i += 1
+            print(f"Gemini PRO API Call error. Retry number {i}...")
             continue
+
+    if i >= 5:
+        completion = model_gemini.generate_content(prompt, 
+            generation_config=genai.types.GenerationConfig(
+            # Only one candidate for now.
+            candidate_count=1,
+            stop_sequences=stop_sequences,
+            # max_output_tokens=max_tokens_to_sample,
+            temperature=temperature))
+        completion = completion.text
 
     if log_file is not None:
         log_to_file(log_file, prompt, completion, model, max_tokens_to_sample)

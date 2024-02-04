@@ -104,7 +104,7 @@ def read_file(file_name, work_dir = '.', **kwargs):
         observation = open(os.path.join(work_dir,file_name)).read()
         return observation
     except:
-        raise EnvException(f"cannot read file {file_name}")
+        raise EnvException(f"cannot read file {os.path.join(work_dir,file_name)}")
 
 
 @check_file_in_work_dir(["file_name"])
@@ -231,7 +231,7 @@ def undo_edit_script( script_name, work_dir = ".", **kwargs):
 
 @check_file_in_work_dir(["script_name"])
 @record_low_level_step
-def execute_script(script_name, work_dir = "../workspace/cifar10", **kwargs):
+def execute_script(script_name, work_dir = ".", **kwargs):
     if not os.path.exists(os.path.join(work_dir,script_name)):
         raise EnvException(f"The file {script_name} does not exist.")
     try:
@@ -245,18 +245,36 @@ def execute_script(script_name, work_dir = "../workspace/cifar10", **kwargs):
         )
 
         # Read the output from the subprocess as it becomes available
+        stdout_lines = []
+        stderr_lines = []
+
         while True:
             output_line = process.stdout.readline()
             if output_line == "" and process.poll() is not None:
                 break
-            print(output_line.strip())  # You can replace print with whatever you want to do with the output
-            # Do something with the output_line, for example, save it or send it to a web interface
+            print(output_line.strip())
+            stdout_lines.append(output_line)
 
-        process.wait()
-        process.terminate()
+        # process.wait()
+        # process.terminate()
 
-        stdout_lines, stderr_lines = process.communicate()
-        observation = stderr_lines if stderr_lines else stdout_lines
+        for line in process.stderr:
+            line = line
+            print("STDERR:", line, end =" ")
+            stderr_lines.append(line)
+
+        return_code = process.returncode
+
+        if return_code != 0:
+            observation = "".join(stdout_lines) + '\n' 
+            observation += "".join(stderr_lines)
+        else:
+            observation = "".join(stdout_lines)
+        if observation == "" and return_code == 0:
+            # printed to stderr only
+            observation = "".join(stderr_lines)
+
+        # print("The script has been executed. Here is the output:\n" + observation)
 
         return "The script has been executed. Here is the output:\n" + observation
 
