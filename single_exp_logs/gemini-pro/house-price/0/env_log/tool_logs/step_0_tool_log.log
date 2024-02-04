@@ -1,0 +1,326 @@
+
+===================prompt=====================
+Given the relevant observations for each segments of a file, summarize to get a cohesive description of the entire file on what to look for and what should returned: A detailed description of the data and all the features.
+    Segment {idx}: 
+
+**MSSubClass:**
+- Identifies the type of dwelling involved in the sale. (Line 1)
+- Values range from 20 to 190, each representing a different type of dwelling. (Lines 2-19)
+
+**MSZoning:**
+- Identifies the general zoning classification of the sale. (Line 21)
+- Values include A (Agriculture), C (Commercial), FV (Floating Village Residential), I (Industrial), RH (Residential High Density), RL (Residential Low Density), RP (Residential Low Density Park), and RM (Residential Medium Density). (Lines 22-29)
+
+**LotFrontage:**
+- Linear feet of street connected to property. (Line 31)
+- Values are in feet.
+
+**LotArea:**
+- Lot size in square feet. (Line 33)
+- Values are in square feet.
+
+**Street:**
+- Type of road access to property. (Line 35)
+- Values are 'Grvl' (Gravel) and 'Pave' (Paved).
+
+**Alley:**
+- Type of alley access to property. (Line 37)
+- Values are 'Grvl' (Gravel), 'Pave' (Paved), and 'NA' (No alley access).
+
+**LotShape:**
+- General shape of property. (Line 39)
+- Values include 'Reg' (Regular), 'IR1' (Slightly irregular), 'IR2' (Moderately Irregular), and 'IR3' (Irregular).
+
+**LandContour:**
+- Flatness of the property. (Line 41)
+- Values include 'Lvl' (Near Flat/Level), 'Bnk' (Banked - Quick and significant rise from street grade to building), 'HLS' (Hillside - Significant slope from side to side), and 'Low' (Depression).
+
+**Utilities:**
+- Type of utilities available. (Line 43)
+- Values include 'AllPub' (All public Utilities (E,G,W,& S)), 'NoSewr' (Electricity, Gas, and Water (Septic Tank)), 'NoSeWa' (Electricity and Gas Only), and 'ELO' (Electricity only).
+
+**LotConfig:**
+- Lot configuration. (Line 45)
+- Values include 'Inside' (Inside lot), 'Corner' (Corner lot), 'CulDSac' (Cul-de-sac), 'FR2' (Frontage on 2 sides of property), and 'FR3' (Frontage on 3 sides of property).
+
+**LandSlope:**
+- Slope of property. (Line 47)
+- Values include 'Gtl' (Gentle slope), 'Mod' (Moderate Slope), and 'Sev' (Severe Slope).
+
+**Neighborhood:**
+- Physical locations within Ames city limits. (Line 49)
+- Values are neighborhood names.
+
+**Condition1:**
+- Proximity to various conditions. (Line 51)
+- Values include 'Artery' (Adjacent to arterial street), 'Feedr' (Adjacent to feeder street), 'Norm' (Normal), 'RRNn' (Within 200' of North-South Railroad), 'RRAn' (Adjacent to North-South Railroad), 'PosN' (Near positive off-site feature--park, greenbelt, etc.), 'PosA' (Adjacent to postive off-site feature), 'RRNe' (Within 200' of East-West Railroad), and 'RRAe' (Adjacent to East-West Railroad).
+
+**Condition2:**
+- Proximity to various conditions (if more than one is present). (Line 53)
+- Values are the same as Condition1.
+
+**BldgType:**
+- Type of dwelling. (Line 55)
+- Values include '1Fam' (Single-family Detached), '2FmCon' (Two-family Conversion; originally built as one-family dwelling), 'Duplx' (Duplex), 'TwnhsE' (Townhouse End Unit), and 'TwnhsI' (Townhouse Inside Unit).
+
+**HouseStyle:**
+- Style of dwelling. (Line 57)
+- Values include '1Story' (One story), '1.5Fin' (One and one-half story: 2nd level finished), '1.5Unf' (One and one-half story: 2nd level unfinished), '2Story' (Two story), '2.5Fin' (Two and one-half story: 2nd level finished), '2.5Unf' (Two and one-half story: 2nd level unfinished), 'SFoyer' (Split Foyer), and 'SLvl' (Split Level).
+
+**OverallQual:**
+- Rates the overall material and finish of the house. (Line 59)
+- Values range from 1 (Very Poor) to 10 (Very Excellent).
+
+**OverallCond:**
+- Rates the overall condition of the house. (Line 61)
+- Values range from 1 (Very Poor) to 10 (Very Excellent).
+
+**YearBuilt:**
+- Original construction date. (Line 63)
+- Values are in years.
+
+**YearRemodAdd:**
+- Remodel date (same as construction date if no remodeling or additions). (Line 65)
+- Values are in years.
+
+**RoofStyle:**
+- Type of roof. (Line 67)
+- Values include 'Flat', 'Gable', 'Gambrel' (Barn), 'Hip', 'Mansard', and 'Shed'.
+
+**RoofMatl:**
+- Roof material. (Line 69)
+- Values include 'ClyTile' (Clay or Tile), 'CompShg' (Standard (Composite) Shingle), 'Membran' (Membrane), 'Metal', 'Roll', 'Tar&Grv' (Gravel & Tar), 'WdShake' (Wood Shakes), and 'WdShngl' (Wood Shingles).
+
+**Exterior1st:**
+- Exterior covering on house. (Line 71)
+- Values include 'AsbShng' (Asbestos Shingles), 'AsphShn' (Asphalt Shingles), 'BrkComm' (Brick Common), 'BrkFace' (Brick Face), 'CBlock' (Cinder Block), 'CemntBd' (Cement Board), 'HdBoard' (Hard Board), 'ImStucc' (Imitation Stucco), 'MetalSd' (Metal Siding), 'Other', 'Plywood', 'PreCast', 'Stone', 'Stucco', 'VinylSd' (Vinyl Siding), 'Wd Sdng' (Wood Siding), and 'WdShing' (Wood Shingles).
+
+**Exterior2nd:**
+- Exterior covering on house (if more than one material). (Line 73)
+- Values are the same as Exterior1st.
+
+**MasVnrType:**
+- Masonry veneer type. (Line 75)
+- Values include 'BrkCmn' (Brick Common), 'BrkFace' (Brick Face), 'CBlock' (Cinder Block), 'None', and 'Stone'.
+
+**MasVnrArea:**
+- Masonry veneer area in square feet. (Line 77)
+- Values are in square feet.
+
+**ExterQual:**
+- Evaluates the quality of the material on the exterior. (Line 79)
+- Values include 'Ex' (Excellent), 'Gd' (Good), 'TA' (Average/Typical), 'Fa' (Fair), and 'Po' (Poor).
+
+**ExterCond:**
+- Evaluates the present condition of the material on the exterior. (Line 81)
+- Values are the same as ExterQual.
+
+**Foundation:**
+- Type of foundation. (Line 83)
+- Values include 'BrkTil' (Brick & Tile), 'CBlock' (Cinder Block), 'PConc' (Poured Contrete), 'Slab', 'Stone', and 'Wood'.
+
+**BsmtQual:**
+- Evaluates the height of the basement. (Line 85)
+- Values include 'Ex' (Excellent (100+ inches)), 'Gd' (Good (90-99 inches)), 'TA' (Typical (80-89 inches)), 'Fa' (Fair (70-79 inches)), 'Po' (Poor (<70 inches), and 'NA' (No Basement).
+
+**BsmtCond:**
+- Evaluates the general condition of the basement. (Line 87)
+- Values include 'Ex' (Excellent), 'Gd' (Good), 'TA' (Typical - slight dampness allowed), 'Fa' (Fair - dampness or some cracking or settling), 'Po' (Poor - Severe cracking, settling, or wetness), and 'NA' (No Basement).
+
+**BsmtExposure:**
+- Refers to walkout or garden level walls. (Line 89)
+- Values include 'Gd' (Good Exposure), 'Av' (Average Exposure (split levels or foyers typically score average or above)), 'Mn' (Mimimum Exposure), 'No' (No Exposure), and 'NA' (No Basement).
+
+**BsmtFinType1:**
+- Rating of basement finished area. (Line 91)
+- Values include 'GLQ' (Good Living Quarters), 'ALQ' (Average Living Quarters), 'BLQ' (Below Average Living Quarters), '
+
+Segment {idx}: 
+
+**TotRmsAbvGrd:**
+- Total number of rooms above ground, excluding bathrooms. (Line 389)
+
+**Functional:**
+- Home functionality, with typical functionality and various levels of deductions. (Line 391)
+
+**Fireplaces:**
+- Number of fireplaces in the property. (Line 401)
+
+**FireplaceQu:**
+- Quality of the fireplace, ranging from excellent to poor. (Line 403)
+
+**GarageType:**
+- Location of the garage, including attached, basement, built-in, carport, detached, and no garage. (Line 413)
+
+**GarageYrBlt:**
+- Year when the garage was built. (Line 423)
+
+**GarageFinish:**
+- Interior finish of the garage, including finished, rough finished, unfinished, and no garage. (Line 425)
+
+**GarageCars:**
+- Size of the garage in terms of car capacity. (Line 427)
+
+**GarageArea:**
+- Size of the garage in square feet. (Line 429)
+
+**GarageQual:**
+- Quality of the garage, ranging from excellent to poor. (Line 431)
+
+**GarageCond:**
+- Condition of the garage, ranging from excellent to poor. (Line 433)
+
+**PavedDrive:**
+- Whether the driveway is paved, partially paved, or dirt/gravel. (Line 437)
+
+**WoodDeckSF:**
+- Area of the wood deck in square feet. (Line 441)
+
+**OpenPorchSF:**
+- Area of the open porch in square feet. (Line 443)
+
+**EnclosedPorch:**
+- Area of the enclosed porch in square feet. (Line 445)
+
+**3SsnPorch:**
+- Area of the three-season porch in square feet. (Line 447)
+
+**ScreenPorch:**
+- Area of the screen porch in square feet. (Line 449)
+
+**PoolArea:**
+- Area of the pool in square feet. (Line 451)
+
+**PoolQC:**
+- Quality of the pool, ranging from excellent to poor. (Line 453)
+
+**Fence:**
+- Quality of the fence, including good privacy, minimum privacy, good wood, minimum wood/wire, and no fence. (Line 457)
+
+**MiscFeature:**
+- Miscellaneous features not covered in other categories, such as elevator, second garage, other, shed, tennis court, and none. (Line 463)
+
+**MiscVal:**
+- Value of the miscellaneous feature in dollars. (Line 465)
+
+**MoSold:**
+- Month when the property was sold, in MM format. (Line 469)
+
+**YrSold:**
+- Year when the property was sold, in YYYY format. (Line 471)
+
+**SaleType:**
+- Type of sale, including warranty deed - conventional, warranty deed - cash, warranty deed - VA loan, new home, court officer deed/estate, contract with various terms, and other. (Line 475)
+
+**SaleCondition:**
+- Condition of the sale, including normal sale, abnormal sale, adjoining land purchase, allocation, sale between family members, and home not completed when last assessed. (Line 485)
+
+In this segment, I cannot find:
+- The number of bathrooms in the property.
+- The square footage of the property.
+- The number of bedrooms in the property.
+- The age of the property.
+- The location of the property.
+- The price of the property.
+    
+===================gemini-pro response (500)=====================
+The file contains detailed information about residential properties, including their features and sale details. Here's a summary of the data and features:
+
+**Property Features:**
+
+- **MSSubClass:** Type of dwelling, ranging from 20 to 190.
+- **MSZoning:** General zoning classification, such as Residential, Commercial, or Industrial.
+- **LotFrontage:** Linear feet of street connected to the property.
+- **LotArea:** Size of the lot in square feet.
+- **Street:** Type of road access, such as Paved or Gravel.
+- **Alley:** Type of alley access, such as Paved, Gravel, or No Alley Access.
+- **LotShape:** General shape of the property, such as Regular, Irregular, or Cul-de-sac.
+- **LandContour:** Flatness of the property, such as Level, Banked, or Hillside.
+- **Utilities:** Type of utilities available, such as All Public Utilities or Electricity Only.
+- **LotConfig:** Lot configuration, such as Inside Lot, Corner Lot, or Cul-de-sac.
+- **LandSlope:** Slope of the property, such as Gentle, Moderate, or Severe.
+- **Neighborhood:** Physical location within Ames city limits.
+- **Condition1:** Proximity to various conditions, such as Arterial Street or Railroad.
+- **Condition2:** Proximity to additional conditions, if applicable.
+- **BldgType:** Type of dwelling, such as Single-Family Detached or Duplex.
+- **HouseStyle:** Style of dwelling, such as One Story or Two Story.
+- **OverallQual:** Overall material and finish rating of the house, from 1 (Very Poor) to 10 (Very Excellent).
+- **OverallCond:** Overall condition of the house, from 1 (Very Poor) to 10 (Very Excellent).
+- **YearBuilt:** Original construction date.
+- **YearRemodAdd:** Remodel or addition date, if applicable.
+- **RoofStyle:** Type of roof, such as Gable or Hip.
+- **RoofMatl:** Material of the roof, such as Asphalt Shingles or Wood Shingles.
+- **Exterior1st:** Exterior covering on the house, such as Brick Common or Vinyl Siding.
+- **Exterior2nd:** Additional exterior covering, if applicable.
+- **MasVnrType:** Masonry veneer type, such as Brick Common or Stone.
+- **MasVnrArea:** Masonry veneer area in square feet.
+- **ExterQual:** Quality of the exterior material, from Excellent to Poor.
+- **ExterCond:** Condition of the exterior material, from Excellent to Poor.
+- **Foundation:** Type of foundation, such as Poured Concrete or Slab.
+- **BsmtQual:** Quality of the basement, from Excellent to Poor, or No Basement.
+- **BsmtCond:** Condition of the basement, from Excellent to Poor, or No Basement.
+- **BsmtExposure:** Exposure of the basement, such as Good Exposure or No Exposure.
+- **BsmtFinType1:** Rating of the finished area in the basement, such as Good Living Quarters or Below Average Living Quarters.
+- **BsmtFinSF1:** Square footage of the finished area in the basement.
+- **BsmtFinType2:** Rating of the additional finished area in the basement, if applicable.
+- **BsmtFinSF2:** Square footage of the additional finished area in the basement.
+- **BsmtUnfSF:** Square footage of the unfinished area in the basement.
+- **TotalBsmtSF:** Total square footage of the basement.
+- **Heating:** Type of heating system, such as Central or Electric.
+- **HeatingQC:** Quality of the heating system, from Excellent to Poor.
+- **CentralAir:** Presence of central air conditioning, Yes or No.
+- **Electrical:** Type of electrical system, such as Circuit Breaker or Fuse.
+- **1stFlrSF:** Square footage of the first floor.
+- **2ndFlrSF:** Square footage of the second floor.
+- **LowQualFinSF:** Square footage of the low-quality finished area.
+- **GrLivArea:** Above-ground living area square footage.
+- **BsmtFullBath:** Number of full bathrooms in the basement.
+- **BsmtHalfBath:** Number of half bathrooms in the basement.
+- **FullBath:** Number of full bathrooms above ground.
+- **HalfBath:** Number of half bathrooms above ground.
+- **BedroomAbvGr:** Number of bedrooms above ground.
+- **KitchenAbvGr:** Number of kitchens above ground.
+- **KitchenQual:** Quality of the kitchen, from Excellent to Poor.
+- **TotRmsAbvGrd:** Total number of rooms above ground, excluding bathrooms.
+- **Functional:** Home functionality, with typical functionality and various levels of deductions.
+- **Fireplaces:** Number of fireplaces in the property.
+- **FireplaceQu:** Quality of the fireplace, ranging from Excellent to Poor.
+- **GarageType:** Location of the garage, such as Attached or Detached.
+- **GarageYrBlt:** Year when the garage was built.
+- **GarageFinish:** Interior finish of the garage, such as Finished or Unfinished.
+- **GarageCars:** Size of the garage in terms of car capacity.
+- **GarageArea:** Size of the garage in square feet.
+- **GarageQual:** Quality of the garage, ranging from Excellent to Poor.
+- **GarageCond:** Condition of the garage, ranging from Excellent to Poor.
+- **PavedDrive:** Whether the driveway is paved, partially paved, or dirt/gravel.
+- **WoodDeckSF:** Area of the wood deck in square feet.
+- **OpenPorchSF:** Area of the open porch in square feet.
+- **EnclosedPorch:** Area of the enclosed porch in square feet.
+- **3SsnPorch:** Area of the three-season porch in square feet.
+- **ScreenPorch:** Area of the screen porch in square feet.
+- **PoolArea:** Area of the pool in square feet.
+- **PoolQC:** Quality of the pool, ranging from Excellent to Poor.
+- **Fence:** Quality of the fence, including Good Privacy or No Fence.
+- **MiscFeature:** Miscellaneous features not covered in other categories, such as Elevator or Shed.
+- **MiscVal:** Value of the miscellaneous feature in dollars.
+
+**Sale Details:**
+
+- **MoSold:** Month when the property was sold, in MM format.
+- **YrSold:** Year when the property was sold, in YYYY format.
+- **SaleType:** Type of sale, such as Warranty Deed - Conventional or Contract with Various Terms.
+- **SaleCondition:** Condition of the sale, such as Normal Sale or Home Not Completed When Last Assessed.
+
+**Missing Information:**
+
+- Number of bathrooms in the property.
+- Square footage of the property.
+- Number of bedrooms in the property.
+- Age of the property.
+- Location of the property.
+- Price of the property.
+===================tokens=====================
+Number of prompt tokens: 2903
+Number of sampled tokens: 1513
+
+

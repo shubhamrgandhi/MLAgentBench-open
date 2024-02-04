@@ -19,7 +19,8 @@ model='codellama'
 # for task in ['cifar10', 'imdb', 'CLRS']:
 # for task in ['imdb', 'CLRS', 'house-price', 'spaceship-titanic', 'feedback']:
 # for task in ['amp-parkinsons-disease-progression-prediction']:
-for task in ['llama-inference', 'vectorization', 'babylm']:
+# for task in ['llama-inference', 'vectorization', 'babylm']:
+for task in ['vectorization', 'babylm', 'bibtex-generation', 'literature-review-tool']:
     folder = f'{log_dir}/{model}/{task}'
     pklname = f'{log_dir}-{model}-{task}-done_count.pkl'
 
