@@ -8,7 +8,7 @@ download_dir = "../env"
 
 input(f"Consent to the competition at https://www.kaggle.com/competitions/{taskname}/data; Press any key after you have accepted the rules online.")
 
-subprocess.run(["kaggle", "competitions", "download", "-c", taskname], cwd=download_dir) 
+# subprocess.run(["kaggle", "competitions", "download", "-c", taskname], cwd=download_dir) 
 subprocess.run(["unzip", "-n", f"{taskname}.zip"], cwd=download_dir) 
 subprocess.run(["rm", f"{taskname}.zip"], cwd=download_dir) 
 subprocess.run(["rm", "-r", "amp_pd_peptide"], cwd=download_dir)

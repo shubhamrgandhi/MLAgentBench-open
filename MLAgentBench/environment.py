@@ -20,13 +20,13 @@ from .low_level_actions import LOW_LEVEL_ACTIONS
 from .high_level_actions import HIGH_LEVEL_ACTIONS
 from .schema import Step, Trace, EnvException, TooLongPromptError, LLMError, EnhancedJSONEncoder 
 # from .LLM import complete_text_claude
-from .LLM import complete_text_geminipro
+from .LLM import complete_text
 from .prepare_task import prepare_task, get_task_info
 
 class TimeoutException(Exception): pass
 
 
-def create_benchmark_folder_name(research_problem, log_file):
+def create_benchmark_folder_name(research_problem, log_file, model='gemini-pro'):
     """Create a benchmark folder name from a research problem in interactive mode"""
 
     prompt = f"""Can you give a short name for this research problem ? 
@@ -38,7 +38,7 @@ The name should be short and valid as a folder name, e.g. "my_research_problem".
 
 """
     # response = complete_text_claude(prompt, stop_sequences=["[end]"], log_file=log_file)
-    response = complete_text_geminipro(prompt, stop_sequences=["[end]"], log_file=log_file)
+    response = complete_text(prompt, stop_sequences=["[end]"], log_file=log_file, model=model)
     benchmark_folder_name = response.split("[research problem name]: ")[-1].split(" [end]")[0]
     return benchmark_folder_name
 
@@ -59,7 +59,7 @@ class Environment:
         else:
             self._research_problem = input("What is the task: ")
             log_file = os.path.join(self.log_dir, "create_benchmark_folder_name.log")
-            self._benchmark_folder_name = create_benchmark_folder_name(self._research_problem, log_file)
+            self._benchmark_folder_name = create_benchmark_folder_name(self._research_problem, log_file, args.llm_name)
             self._work_dir = args.work_dir
             w = input(f"Enter the folder path (Research Assistant will not read anything outside this folder) default: {args.work_dir}: ")
             if w != "":

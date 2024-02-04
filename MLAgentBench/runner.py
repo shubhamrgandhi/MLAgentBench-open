@@ -51,9 +51,9 @@ if __name__ == "__main__":
 
     # general agent configs
     parser.add_argument("--agent-type", type=str, default="ResearchAgent", help="agent type")
-    parser.add_argument("--llm-name", type=str, default="gemini-pro", help="llm name")
-    parser.add_argument("--fast-llm-name", type=str, default="gemini-pro", help="llm name")
-    parser.add_argument("--edit-script-llm-name", type=str, default="gemini-pro", help="llm name")
+    parser.add_argument("--llm-name", type=str, default="codellama", help="llm name")
+    parser.add_argument("--fast-llm-name", type=str, default="codellama", help="llm name")
+    parser.add_argument("--edit-script-llm-name", type=str, default="codellama", help="llm name")
     parser.add_argument("--edit-script-llm-max-tokens", type=int, default=4000, help="llm max tokens")
     parser.add_argument("--agent-max-steps", type=int, default=30, help="max iterations for agent")
 

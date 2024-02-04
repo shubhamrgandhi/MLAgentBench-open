@@ -19,14 +19,9 @@
 # print(data)
 
 from huggingface_hub import InferenceClient
+client = InferenceClient(token=open("huggingface_api_key.txt").read().strip(), model="codellama/CodeLlama-34b-Instruct-hf")
+prompt = 'Generate python code for a hello world program.'
+# prompt = f'<s>[INST] Hey how are you? [/INST]'
+response = client.text_generation(prompt, max_new_tokens=300, repetition_penalty=1.1)
 
-client = InferenceClient(model="codellama/CodeLlama-13b-hf", token=open("huggingface_api_key.txt").read().strip())
-
-prompt_prefix = 'def remove_non_ascii(s: str) -> str:\n    """ '
-prompt_suffix = "\n    return result"
-
-prompt = f"<PRE> {prompt_prefix} <SUF>{prompt_suffix} <MID>"
-
-infilled = client.text_generation(prompt, max_new_tokens=150)
-infilled = infilled.rstrip(" <EOT>")
-print(f"{prompt_prefix}{infilled}{prompt_suffix}")
+print(response)

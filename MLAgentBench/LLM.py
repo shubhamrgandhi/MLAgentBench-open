@@ -6,10 +6,24 @@ import tiktoken
 from .schema import TooLongPromptError, LLMError
 import sys
 
-import google.generativeai as genai
+try:
+    import google.generativeai as genai
+    genai.configure(api_key=open("gemini_api_key.txt").read().strip())
+    model_gemini = genai.GenerativeModel('gemini-pro')
+except Exception as e:
+    print(e)
+    print('Unable to instantiate gemini api for inference. Check if API key is stored in file gemini_api_key.txt. Ignore if not using gemini as one of the LLMs')
 
-genai.configure(api_key=open("gemini_api_key.txt").read().strip())
-model_gemini = genai.GenerativeModel('gemini-pro')
+try:
+    from huggingface_hub import InferenceClient, InferenceTimeoutError
+    codellama_client = InferenceClient(token=open("huggingface_api_key.txt").read().strip(), model="codellama/CodeLlama-34b-Instruct-hf", timeout=100)
+    
+    from transformers import AutoTokenizer
+    model_name = "codellama/CodeLlama-34b-Instruct-hf" 
+    codellama_tokenizer = AutoTokenizer.from_pretrained(model_name)
+except Exception as e:
+    print(e)
+    print('Unable to instantiate codellama huggingface api for inference. Check if API key is stored in file huggingface_api_key.txt. Ignore if not using codellama as one of the LLMs')
 
 # enc = tiktoken.get_encoding("cl100k_base")
 
@@ -51,10 +65,19 @@ def log_to_file(log_file, prompt, completion, model, max_tokens_to_sample):
         # f.write(f"{anthropic.HUMAN_PROMPT} {prompt} {anthropic.AI_PROMPT}")
         f.write(prompt)
         # num_prompt_tokens = len(enc.encode(f"{anthropic.HUMAN_PROMPT} {prompt} {anthropic.AI_PROMPT}"))
-        num_prompt_tokens = str(model_gemini.count_tokens(prompt)).split(":")[-1].strip()
+        if model == 'gemini-pro': num_prompt_tokens = str(model_gemini.count_tokens(prompt)).split(":")[-1].strip()
+        elif model =='codellama': 
+            tokenized_output = codellama_tokenizer(prompt, return_tensors="pt")
+            num_prompt_tokens = tokenized_output["input_ids"].size(1)
+
         f.write(f"\n==================={model} response ({max_tokens_to_sample})=====================\n")
         f.write(completion)
-        num_sample_tokens = str(model_gemini.count_tokens(completion)).split(":")[-1].strip()
+        
+        if model == 'gemini-pro': num_sample_tokens = str(model_gemini.count_tokens(completion)).split(":")[-1].strip()
+        elif model =='codellama': 
+            tokenized_output = codellama_tokenizer(completion, return_tensors="pt")
+            num_sample_tokens = tokenized_output["input_ids"].size(1)
+
         # num_sample_tokens = len(enc.encode(completion))
         f.write("\n===================tokens=====================\n")
         f.write(f"Number of prompt tokens: {num_prompt_tokens}\n")
@@ -101,6 +124,16 @@ def get_embedding_geminipro(text, model="gemini-pro"):
     content=text,
     task_type="retrieval_query")
     return result['embedding']
+
+def get_embedding_codellama(text, model = 'codellama'):
+    pass
+
+def get_embedding(text, model='gemini-pro'):
+    if model == 'gemini-pro':
+        return get_embedding_geminipro(text)
+    elif model == 'codellama':
+        return get_embedding_codellama(text)
+    return ''
 
 # def complete_text_crfm(prompt=None, stop_sequences = None, model="openai/gpt-4-0314",  max_tokens_to_sample=2000, temperature = 0.5, log_file=None, messages = None, **kwargs):
     
@@ -176,8 +209,9 @@ def complete_text_geminipro(prompt, stop_sequences=["Observation:"], model="gemi
                 temperature=temperature))
             completion = completion.text
             break
-        except:
+        except Exception as e:
             i += 1
+            print(e)
             print(f"Gemini PRO API Call error. Retry number {i}...")
             continue
 
@@ -196,11 +230,42 @@ def complete_text_geminipro(prompt, stop_sequences=["Observation:"], model="gemi
 
     return completion
 
+def complete_text_codellama(prompt, stop_sequences=["Observation:"], model="codellama",
+                             max_tokens_to_sample=500, temperature=0.2, log_file=None, **kwargs):
+    prompt = f'<s>[INST] {prompt} [/INST]'
+    i = 0
+    while i < 5:
+        try:
+            completion = codellama_client.text_generation(prompt, max_new_tokens=max_tokens_to_sample, truncate=3000,
+                                                           repetition_penalty=1.1, temperature=temperature, stop_sequences=stop_sequences)
+            break
+        except InferenceTimeoutError as inf_err:
+            print(inf_err)
+            i+=1
+            print(f'CodeLlama API Inference Timeout error. Retry number {i}')
+        except Exception as e:
+            i += 1
+            print(e)
+            print(f"CodeLlama API Call error. Retry number {i}...")
+            continue
+
+    if i >= 5:
+        completion = codellama_client.text_generation(prompt, max_new_tokens=max_tokens_to_sample, truncate=3000,
+                                                       repetition_penalty=1.1, temperature=temperature, stop_sequences=stop_sequences)
+
+    if log_file is not None:
+        log_to_file(log_file, prompt, completion, model, max_tokens_to_sample)
+
+    return completion
+
 def complete_text(prompt, log_file, model, **kwargs):
     """ Complete text using the specified model with appropriate API. """
     
-    completion = complete_text_geminipro(prompt, log_file=log_file, model=model, **kwargs)
-
+    completion = 'sample'
+    if model == 'gemini-pro':   
+        completion = complete_text_geminipro(prompt, log_file=log_file, model=model, **kwargs)
+    elif model == 'codellama':
+        completion = complete_text_codellama(prompt, log_file=log_file, model=model, **kwargs)
     # if model.startswith("claude"):
     #     # use anthropic API
     #     completion = complete_text_claude(prompt, stop_sequences=[anthropic.HUMAN_PROMPT, "Observation:"], log_file=log_file, model=model, **kwargs)
@@ -215,8 +280,8 @@ def complete_text(prompt, log_file, model, **kwargs):
 
 # specify fast models for summarization etc
 # FAST_MODEL = "claude-v1"
-FAST_MODEL = "gemini-pro"
-# FAST_MODEL = "codellama"
+# FAST_MODEL = "gemini-pro"
+FAST_MODEL = "codellama"
 def complete_text_fast(prompt, **kwargs):
     return complete_text(prompt = prompt, model = FAST_MODEL, temperature =0.01, **kwargs)
 # complete_text_fast = partial(complete_text_openai, temperature= 0.01)
