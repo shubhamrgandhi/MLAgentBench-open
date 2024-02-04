@@ -280,8 +280,8 @@ def complete_text(prompt, log_file, model, **kwargs):
 
 # specify fast models for summarization etc
 # FAST_MODEL = "claude-v1"
-# FAST_MODEL = "gemini-pro"
-FAST_MODEL = "codellama"
+FAST_MODEL = ""
+# FAST_MODEL = "codellama"
 def complete_text_fast(prompt, **kwargs):
     return complete_text(prompt = prompt, model = FAST_MODEL, temperature =0.01, **kwargs)
 # complete_text_fast = partial(complete_text_openai, temperature= 0.01)
