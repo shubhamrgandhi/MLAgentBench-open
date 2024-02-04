@@ -19,7 +19,7 @@ model='gemini-pro'
 # task='ogbn-arxiv'
 # task='imdb'
 # for task in ['ogbn-arxiv']:
-for task in ['ogbn-arxiv', 'spaceship-titanic', 'feedback']:
+for task in ['spaceship-titanic', 'feedback']:
     folder = f'{log_dir}/{model}/{task}'
     pklname = f'{log_dir}-{model}-{task}-done_count.pkl'
 
