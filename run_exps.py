@@ -20,7 +20,8 @@ model='gemini-pro'
 # for task in ['imdb', 'CLRS', 'house-price', 'spaceship-titanic', 'feedback']:
 # for task in ['amp-parkinsons-disease-progression-prediction']:
 # for task in ['bibtex-generation', 'literature-review-tool']:
-for task in ['amp-parkinsons-disease-progression-prediction', 'llama-inference', 'vectorization', 'babylm', 'feedback', 'bibtex-generation', 'literature-review-tool']:
+# for task in ['amp-parkinsons-disease-progression-prediction', 'llama-inference', 'vectorization', 'babylm', 'feedback', 'bibtex-generation', 'literature-review-tool']:
+for task in ['literature-review-tool', 'babylm', 'feedback']:
     folder = f'{log_dir}/{model}/{task}'
     pklname = f'{log_dir}-{model}-{task}-done_count.pkl'
 
