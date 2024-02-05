@@ -1,0 +1,72 @@
+
+===================prompt=====================
+Given your action and the observation: 
+        Reflection:    The edit to vectorise the `relu` function was successful. I can now proceed to vectorise the other functions.
+Research Plan and Status:   
+1. Understand the train.py script and identify all possible ways where computation can be vectorised. Done
+2. Vectorise the forward function. In progress
+3. Run the script to see if the execution speed has improved. Not started
+4. Store the run time in a submission.csv as shown in train.py. Not started
+
+
+
+
+
+
+Fact Check:   
+1. I have completed step 2, which is confirmed by the observation from the Edit Script (AI) action.
+Thought:    I should continue vectorising the other functions.
+Action:    Edit Script (AI)
+Action Input:    {
+"script_name": "train_vectorised.py",
+"edit_instruction": "Vectorise the `add_padding` function using numpy's `pad` function.",
+"save_name": "train_vectorised.py"
+} 
+        [Observation]:
+        ```
+        The edited file is saved to train_vectorised.py. Here is the diff, please check if the edit is correct and desirable:
+
+--- 
++++ 
+@@ -24,13 +24,7 @@
+         Padded Numpy array Image
+     '''
+     assert (len(X.shape) == 4), "Input image should be form of [Batch, Width, Height, Channels]"
+-    if isinstance(pad_size,int):
+-        y_pad = x_pad = pad_size
+-    else:
+-        y_pad = pad_size[0]
+-        x_pad = pad_size[1]
+-
+-    pad_width = ((0,0), (y_pad,y_pad), (x_pad,x_pad), (0,0)) # Do not pad first and last axis. Pad Width(2nd), Height(3rd) axis with  pad_size
++    pad_width = ((0,0), (pad_size,pad_size), (pad_size,pad_size), (0,0)) # Do not pad first and last axis. Pad Width(2nd), Height(3rd) axis with  pad_size
+     return np.pad(X, pad_width = pad_width, mode = 'constant', constant_values = (pad_val,pad_val))
+ 
+ 
+@@ -118,4 +112,10 @@
+                         kernel_matrix = self.kernel_matrices[:, :, :, filter_index] # Select appropriate Kernel Matrix
+                         bias = self.biases[:,:,:,filter_index] # Select corresponding bias
+ 
+-                        result = self.convolution_step(image_portion, kernel_matrix, bias) # Get 1 value+                        result = self.convolution_step(image_portion, kernel_matrix, bias) # Get 1 value
++                        output[index,h,w,filter_index] = result # Store the result in the output
++
++        if self.activation == 'relu':
++            output = relu(output)
++
++        return output
+        ```
+        Summarize your action and the observation in this format:
+        [Reasoning]: Summarize the reasoning behind the action
+        [Action]: Summarize all relevant details of the action objectively
+        [Observation]: Summarize all relevant details in the observation objectively
+        Do not include any result that is guessed rather than directly confirmed by the observation. Do not include additional information or suggestions.
+        
+===================gemini-pro response (500)=====================
+[Reasoning]: The `add_padding` function can be vectorised using numpy's `pad` function, which can potentially improve the execution speed of the script.
+[Action]: Edited the `train_vectorised.py` script to vectorise the `add_padding` function using numpy's `pad` function.
+[Observation]: The edited file is saved as `train_vectorised.py`. The diff shows that the `add_padding` function has been modified to use numpy's `pad` function for padding.
+===================tokens=====================
+Number of prompt tokens: 795
+Number of sampled tokens: 113
+
+

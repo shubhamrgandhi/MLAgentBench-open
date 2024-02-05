@@ -1,0 +1,59 @@
+Traceback (most recent call last):
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\google\api_core\grpc_helpers.py", line 79, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\grpc\_channel.py", line 1160, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\grpc\_channel.py", line 1003, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:142.250.70.42:443: tcp handshaker shutdown"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"failed to connect to all addresses; last error: UNKNOWN: ipv4:142.250.70.42:443: tcp handshaker shutdown", grpc_status:14, created_time:"2024-02-05T17:22:21.9733774+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\google\api_core\retry.py", line 207, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\google\api_core\timeout.py", line 120, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\google\api_core\grpc_helpers.py", line 81, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ServiceUnavailable: 503 failed to connect to all addresses; last error: UNKNOWN: ipv4:142.250.70.42:443: tcp handshaker shutdown
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\2671148\MLAgentBench-open\MLAgentBench\runner.py", line 31, in run
+    final_message = agent.run(env)
+                    ^^^^^^^^^^^^^^
+  File "C:\Users\2671148\MLAgentBench-open\MLAgentBench\agents\agent_research.py", line 114, in run
+    completion = complete_text(prompt, log_file, self.args.llm_name)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2671148\MLAgentBench-open\MLAgentBench\LLM.py", line 266, in complete_text
+    completion = complete_text_geminipro(prompt, log_file=log_file, model=model, **kwargs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2671148\MLAgentBench-open\MLAgentBench\LLM.py", line 219, in complete_text_geminipro
+    completion = model_gemini.generate_content(prompt,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\google\generativeai\generative_models.py", line 248, in generate_content
+    response = self._client.generate_content(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 566, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\google\api_core\retry.py", line 372, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Users\2671148\AppData\Roaming\Python\Python311\site-packages\google\api_core\retry.py", line 226, in retry_target
+    raise exceptions.RetryError(
+google.api_core.exceptions.RetryError: Deadline of 60.0s exceeded while calling target function, last exception: 503 failed to connect to all addresses; last error: UNKNOWN: ipv4:142.250.70.42:443: tcp handshaker shutdown

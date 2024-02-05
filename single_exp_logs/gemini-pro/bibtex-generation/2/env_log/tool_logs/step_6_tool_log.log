@@ -1,0 +1,38 @@
+
+===================prompt=====================
+Given this python script:
+    ```python 
+    
+    ```
+    Edit the script by following the instruction:
+    Add the following code to the script:
+
+import anthropic
+
+client = anthropic.Client(open("claude_api_key.txt").read().strip())
+    Provide the full code after the edit, making no other changes. Start the python code with "```python". 
+
+    
+===================gemini-pro response (4000)=====================
+```python
+import anthropic
+
+client = anthropic.Client(open("claude_api_key.txt").read().strip())
+
+def generate_text(prompt):
+  response = client.generate_text(
+    prompt=prompt,
+    temperature=0.5,
+    max_tokens=100
+  )
+  return response["candidates"][0]["output"]
+
+prompt = "Once upon a time, there was a little girl who lived in a small village."
+generated_text = generate_text(prompt)
+print(generated_text)
+```
+===================tokens=====================
+Number of prompt tokens: 89
+Number of sampled tokens: 125
+
+

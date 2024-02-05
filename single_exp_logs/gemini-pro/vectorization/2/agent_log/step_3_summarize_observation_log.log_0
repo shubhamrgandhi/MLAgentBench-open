@@ -1,0 +1,145 @@
+
+===================prompt=====================
+
+Reflection:    The forward function in the Conv2DLayer class iterates over the batch of input features, applies padding if specified, and convolves each portion of the input with the layer's kernel matrices. The resulting feature maps are then passed through the activation function (if specified). It seems that the convolution operation can be vectorised.
+Research Plan and Status:    
+1. Understand the train.py script and the problem.
+2. Identify the parts of the script that can be vectorised.
+3. Implement the vectorisation and run the script to see the improvement.
+4. Store the run time in submission.csv.
+
+
+
+
+
+
+Fact Check:    
+1. Directly confirmed: The forward function in the Conv2DLayer class iterates over the batch of input features, applies padding if specified, and convolves each portion of the input with the layer's kernel matrices. The resulting feature maps are then passed through the activation function (if specified).
+Thought:    I should use the Edit Script (AI) action to vectorise the convolution operation.
+Action:    Edit Script (AI)
+Action Input:    {
+    "script_name": "train.py",
+    "edit_instruction": "In the forward function of the Conv2DLayer class, vectorise the convolution operation by using NumPy's einsum function to perform the matrix multiplication between the image portion and the kernel matrix.",
+    "save_name": "train_vectorised.py"
+}
+
+
+
+
+The full observation is too long. Given this (partial) observation from character 1 to character 5354: 
+``` 
+The edited file is saved to train_vectorised.py. Here is the diff, please check if the edit is correct and desirable:
+
+--- 
++++ 
+@@ -19,11 +19,11 @@
+     args:
+         x: Input Image should be in the form of [Batch, Width, Height, Channels]
+         pad_size: How much padding should be done. If int, equal padding will done. Else specify how much to pad each side (height_pad,width_pad) OR (y_pad, x_pad)
+-        pad_val: What should be the value to be padded. Usually it os 0 padding
++        pad_val: What should be the value to be. Usually it os 0 padding
+     return:
+         Padded Numpy array Image
+     '''
+-    assert (len(X.shape) == 4), "Input image should be form of [Batch, Width, Height, Channels]"
++    assert (len(X.shape) == 4), "Input image should be form of [Batch, Width, Height, Channels]
+     if isinstance(pad_size,int):
+         y_pad = x_pad = pad_size
+     else:
+@@ -36,7 +36,7 @@
+ 
+ class Conv2DLayer:
+     '''
+-    2D Convolution Layer
++    2D Layer
+     '''
+     def __init__(self,input_channels:int, num_filters:int, kernel_size:int, stride:int, padding:Union[str,None], activation:Union[None,str]='relu'):
+         '''
+@@ -47,8 +47,8 @@
+         args:
+             input_channels: No of features/channels present in the incoming input. It'll be equal to Last dimension value from the prev layer output `previous_layer.output.shape[-1]`
+             num_filters: Output Channels or How many new features you want this new Layer to Detect. Each Filter/kernel will detect a new Feature /channel
+-            kernel_size: What is the size of Kernels or Filters. Each Filter a 2D Square Matrix of size kernel_size
+-            stride: How many pixels you want each kernel to shift. Same shift in X and Y direction OR indirectly, it'll define how many iterations the kernel will take to convolve over the whole image
++            kernel_size: What is the size of Kernels or stride. Each Filter a 2D Square Matrix of size kernel_size
++            stride: How many pixels you want each kernel to shift. Same shift in X and Y direction OR stride, it'll define how many stride the kernel will take to convolve over the whole image
+             padding: How much padding you want to add to the image. If padding='same', it means padding in a way that input and output have the same dimension
+             activation: Which activation to use
+         '''
+@@ -72,7 +72,7 @@
+             Convolved window output with single floating value inside a [1,1,1] matrix
+         '''
+         assert image_portion.shape == kernel_matrix.shape , "Image Portion and Filter must be of same shape"
+-        return np.sum(np.multiply(image_portion,kernel_matrix)) + bias.astype('float')
++        return np.sum(np.einsum('ijkl,ijkl->ij',image_portion,kernel_matrix)) + bias.squeeze('float')
+ 
+ 
+     def forward(self,features_batch:np.ndarray)->np.ndarray:
+@@ -86,7 +86,7 @@
+ 
+         output: Convolved Image batch with new height, width and new detected features
+         '''
+-        padding_size = 0 # How to implement self.padding = 'same'?
++        padding_size = 0 # How to implement self.padding = 'same'
+         if isinstance(self.padding, int): # If specified padding
+             padding_size = self.padding
+         
+@@ -104,7 +104,7 @@
+ 
+         for index in range(batch_size): # index i is the i-th Image or Image Matrix in other terms
+             padded_feature = padded_batch[index,:,:,:] # Get Every feature or Channel
+-            for h in range(h_new): # Used in Vertical slicing or Window's height start and height end
++            for h in range(h_new): # Used in vertical slicing or Window's height start and height end
+                 for w in range(w_new): # Used in Horizontal slicing or Window's width start and width end
+                     for filter_index in range(num_of_filters_new): # Feature index. Selects the appropriate kernel one at a time
+ 
+@@ -116,30 +116,6 @@
+ 
+                         image_portion = padded_feature[vertical_start:vertical_end, horizontal_start:horizontal_end,:]  # Sliced window
+                         kernel_matrix = self.kernel_matrices[:, :, :, filter_index] # Select appropriate Kernel Matrix
+-                        bias = self.biases[:,:,:,filter_index] # Select corresponding bias
++                        bias = self.biases[:, :, :, filter_index] # Select corresponding bias
+ 
+-                        result = self.convolution_step(image_portion, kernel_matrix, bias) # Get 1 value per window and kernel 
+-                        output[index,h,w,filter_index] = result # Fill the resulting output matrix with corresponding values
+-        
+-        
+-        if self.activation == 'relu': # apply activation Function. 
+-            return relu(output)
+-
+-        return output
+-
+-
+-if __name__== "__main__":
+-    
+-    batch_features = np.random.randn(32, 64, 64, 3)
+-
+-    start_time = time.time()
+-    cnn = Conv2DLayer(3,8,3,2,2,'relu')
+-    pre_output = cnn.forward(batch_features)
+-    end_time = time.time()
+-    interval_time = end_time - start_time
+-    print(f"Time taken for execution: {interval_time} s")
+-
+-    with open("submission.csv", "a+", newline='') as file:
+-        writer = csv.writer(file, delimiter=';')
+-        writer.writerow([interval_time])
+-
++                        result = self.convolution_step(image_portion, kernel_matrix, bias) # Get
+```
+Summarize the observation concisely in this format:
+[Observation]: Summarize all relevant details in the observation objectively
+
+Do not include any result that is guessed rather than directly confirmed by the observation. Do not include additional information or suggestions.
+
+===================gemini-pro response (500)=====================
+**Observation**:
+
+- The forward function in the Conv2DLayer class iterates over the batch of input features, applies padding if specified, and convolves each portion of the input with the layer's kernel matrices.
+- The resulting feature maps are then passed through the activation function (if specified).
+- The convolution operation can be vectorized using NumPy's einsum function to perform the matrix multiplication between the image portion and the kernel matrix.
+===================tokens=====================
+Number of prompt tokens: 1875
+Number of sampled tokens: 93
+
+

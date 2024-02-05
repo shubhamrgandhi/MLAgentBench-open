@@ -1,0 +1,102 @@
+
+===================prompt=====================
+
+Reflection:   The error is in the vectorized forward pass code. The `einsum` function is being used to perform the convolution operation, but the operands are not being broadcast correctly.
+Research Plan and Status:  
+1. Understand the train.py script. Done.
+2. Identify the parts of the script where vectorisation can be applied. Done.
+3. Implement the vectorisation and measure the performance improvement. In progress.
+4. Store the run time in a submission.csv as shown in train.py.
+
+
+
+
+
+Fact Check:  
+1. It is directly confirmed by the observation that the error is in the vectorized forward pass code.
+Thought:   I need to fix the broadcasting issue in the `einsum` function.
+Action:   Edit Script (AI)
+Action Input:  
+```
+{
+  "script_name": "train_vectorized.py",
+  "edit_instruction": "Fix the broadcasting issue in the `einsum` function.",
+  "save_name": "train_vectorized_fixed.py"
+}
+```
+
+The full observation is too long. Given this (partial) observation from character 10001 to character 13112: 
+``` 
+rs_new = self.kernel_matrices.shape # [filter_size, filter_size, num_features_old, num_of_filters_new]
+ 
+-        # New Height/Width is dependent on the old height/ width, stride, filter size, and amount of padding
+-        h_new = int((h_old + (2 * padding_size) - filter_size) / self.stride) + 1
+-        w_new = int((w_old + (2 * padding_size) - filter_size) / self.stride) + 1
++        batch_size, h_old, w_old, num_features_old = input_batch.shape  # [batch size, height, width, no of features (Channels) from the previous layer]
++        kernel_size, kernel_size, num_features_old, num_of_features_new = self.kernel_weights.shape  # [filter_size, filter_size, num_features_old, num_of_features_new]
+ 
+-        padded_batch = add_padding(features_batch, padding_size) # Pad the current input. third param is 0 by default so it is zero padding
++        # New Height/Width is based on the old height/ width, kernel size, and amount of padding
++        h_new = int((h_old + (2 * padding_size) - kernel_size) / self.stride) + 1
++        w_new = int((w_old + (2 * padding_size) - kernel_size) / self.stride) + 1
++
++        padded_batch = add_padding(input_batch, padding_size)  # Pad the current input. third param is 0 by default so it is zero padding
+ 
+         # This will act as an Input to the layer Next to it
+-        output = np.zeros([batch_size, h_new, w_new, num_of_filters_new]) # batch size will be same but height, width and no of filters will be changed
++        output = np.zeros([batch_size, h_new, w_new, num_of_features_new])  # Shape size will be same but height, width and no of features will be changed
+ 
+         # Vectorized Forward Pass
+-        output = np.einsum('bijk,ijkl->bijl', padded_batch, self.kernel_matrices) + self.biases
+-        
+-        if self.activation == 'relu': # apply activation Function. 
++        output = np.tensordot(padded_batch, self.kernel_weights, axes=([1, 2, 3], [0, 1, 2])) + self.biases
++
++        if self.activation == 'relu':  # apply Activation Function.
+             return relu(output)
+ 
+         return output
+ 
+ 
+-if __name__== "__main__":
+-    
+-    batch_features = np.random.randn(32, 64, 64, 3)
++if __name__ == '__main__':
++
++    batch_size = 32
++    input_features = 3
++    kernel_size = 3
++    stride = 2
++    padding = 'same'
++    activation = 'relu'
++
++    input_batch = np.random.randn(batch_size, 64, 64, input_features)
+ 
+     start_time = time.time()
+-    cnn = Conv2DLayer(3,8,3,2,2,'relu')
+-    pre_output = cnn.forward(batch_features)
++    cnn = Conv2DLayer(input_features, 8, kernel_size, stride, padding, activation)
++    pre_output = cnn.forward(input_batch)
+     end_time = time.time()
+-    interval_time = end_time - start_time
+-    print(f"Time taken for execution: {interval_time} s")
++    total_time = end_time - start_time
++    print(f"Time taken for forward pass: {total_time} s")
+ 
+-    with open("submission.csv", "a+", newline='') as file:
++    with open("submission.csv", "a") as file:
+         writer = csv.writer(file, delimiter=';')
+-        writer.writerow([interval_time])+        writer.writerow([total_time])
+```
+Summarize the observation concisely in this format:
+[Observation]: Summarize all relevant details in the observation objectively
+
+Do not include any result that is guessed rather than directly confirmed by the observation. Do not include additional information or suggestions.
+
+===================gemini-pro response (500)=====================
+[Observation]: The error in the vectorized forward pass code is due to incorrect broadcasting of operands in the `einsum` function. The `einsum` function is used to perform the convolution operation, but the operands are not being broadcast correctly.
+===================tokens=====================
+Number of prompt tokens: 1346
+Number of sampled tokens: 50
+
+

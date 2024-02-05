@@ -1,0 +1,89 @@
+
+===================prompt=====================
+Given your action and the observation: 
+        Reflection:  The function to use LLM to summarize papers is not implemented in the file literature_review.py. I cannot proceed with the task.
+Research Plan and Status:  
+1. Understand the problem and come up with a high level plan.
+2. Create a literature_review.py file.
+3. Implement the function to call arxiv API.
+4. Implement the function to use LLM to summarize papers.
+5. Implement the function to generate a report.
+6. Test the system.
+
+
+
+
+
+
+
+
+Fact Check:  
+1. Guessed: This is the first time I am seeing this problem.
+2. Confirmed: A new Python script file named "literature_review.py" was created.
+3. Confirmed: The file arxiv_API_reference.txt exists in the current directory.
+4. Confirmed: The function get_arxiv_data is added to the file literature_review.py.
+Thought:   I should implement the function to use LLM to summarize papers.
+Action:   Edit Script (AI)
+Action Input:  
+{
+ "script_name": "literature_review.py",
+ "edit_instruction": "Implement the function to use LLM to summarize papers.",
+ "save_name": "literature_review.py"
+}
+ 
+        [Observation]:
+        ```
+        The edited file is saved to literature_review.py. Here is the diff, please check if the edit is correct and desirable:
+
+--- 
++++ 
+@@ -4,6 +4,7 @@
+ import matplotlib.pyplot as plt
+ import seaborn as sns
+ from arxiv import Arxiv
++import transformers
+ 
+ # Load the data
+ df = pd.read_csv('literature_review.csv')
+@@ -50,4 +51,25 @@
+ df_arxiv = get_arxiv_data(query='machine learning', start_date='2012-01-01', end_date='2022-12-31')
+ 
+ # Print the number of articles returned by the API
+-print('Number of articles returned by the API:', len(df_arxiv))+print('Number of articles returned by the API:', len(df_arxiv))
++
++# Define the function to use LLM to summarize papers
++def summarize_paper(paper_text):
++    # Load the LLM model
++    model = transformers.AutoModelForSeq2SeqLM.from_pretrained("google/pegasus-xsum")
++
++    # Tokenize the paper text
++    input_ids = model.tokenizer(paper_text, return_tensors="pt").input_ids
++
++    # Generate the summary
++    output = model.generate(input_ids, max_length=128)
++
++    # Decode the summary
++    summary = model.tokenizer.batch_decode(output, skip_special_tokens=True)
++
++    # Return the summary
++    return summary[0]
++
++# Summarize the first 10 papers in the arXiv DataFrame
++for paper in df_arxiv.head(10)['summary']:
++    print(summarize_paper(paper))
+        ```
+        Summarize your action and the observation in this format:
+        [Reasoning]: Summarize the reasoning behind the action
+        [Action]: Summarize all relevant details of the action objectively
+        [Observation]: Summarize all relevant details in the observation objectively
+        Do not include any result that is guessed rather than directly confirmed by the observation. Do not include additional information or suggestions.
+        
+===================gemini-pro response (500)=====================
+[Reasoning]: The function to use LLM to summarize papers is not implemented in the file literature_review.py. I need to implement this function in order to proceed with the task.
+[Action]: I edited the script literature_review.py and added the function summarize_paper to it. This function uses the LLM model "google/pegasus-xsum" to summarize paper text.
+[Observation]: The edited file is saved to literature_review.py. The diff shows that the function summarize_paper is added to the file. The function takes paper text as input and returns a summary of the paper. The function uses the LLM model "google/pegasus-xsum" to generate the summary.
+===================tokens=====================
+Number of prompt tokens: 793
+Number of sampled tokens: 150
+
+
